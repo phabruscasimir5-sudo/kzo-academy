@@ -1,0 +1,1057 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#050D1F">
+<title>KZO Academy — Apprendre • Pratiquer • Réussir</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%232563EB'/%3E%3Cstop offset='1' stop-color='%238B5CF6'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='100' height='100' rx='22' fill='url(%23g)'/%3E%3Ctext x='50' y='72' text-anchor='middle' font-family='Arial' font-size='62' font-weight='900' fill='white'%3EK%3C/text%3E%3C/svg%3E">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+:root{
+  --bg:#050D1F;--bg-2:#0A1428;--bg-3:#0F1E3D;
+  --surface:rgba(30,58,95,.35);--surface-2:rgba(30,58,95,.55);
+  --border:rgba(96,165,250,.12);--border-2:rgba(96,165,250,.25);
+  --text:#FFFFFF;--text-soft:#C7D2E0;--text-muted:#7A90AD;--text-dim:#4A5875;
+  --blue-500:#2563EB;--cyan-400:#22D3EE;--purple-500:#8B5CF6;--gold-500:#F59E0B;--green-500:#10B981;--red-500:#EF4444;
+  --grad-primary:linear-gradient(135deg,#2563EB 0%,#8B5CF6 100%);
+  --grad-hero:linear-gradient(135deg,#2563EB 0%,#06B6D4 50%,#8B5CF6 100%);
+  --shadow:0 12px 32px rgba(0,0,0,.35);
+  --shadow-lg:0 24px 56px -12px rgba(0,0,0,.6);
+  --r:16px;--r-lg:24px;--r-xl:32px;--topbar:72px;
+}
+[data-theme="light"]{
+  --bg:#F8FAFC;--bg-2:#FFFFFF;--bg-3:#F1F5F9;
+  --surface:rgba(255,255,255,.9);--surface-2:rgba(255,255,255,.95);
+  --border:rgba(15,30,61,.09);--border-2:rgba(15,30,61,.18);
+  --text:#0A1428;--text-soft:#334155;--text-muted:#64748B;--text-dim:#94A3B8;
+  --shadow:0 12px 32px -12px rgba(15,30,61,.15);
+  --shadow-lg:0 24px 56px -16px rgba(15,30,61,.2);
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{font-family:'Inter','Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden;line-height:1.6;-webkit-font-smoothing:antialiased;transition:background .4s,color .4s}
+a{color:inherit;text-decoration:none}
+button,input,select,textarea{font:inherit;color:inherit}
+button{background:none;border:none;cursor:pointer}
+img,svg{max-width:100%;display:block}
+::-webkit-scrollbar{width:10px;height:10px}
+::-webkit-scrollbar-thumb{background:linear-gradient(180deg,#2563EB,#8B5CF6);border-radius:10px;border:2px solid var(--bg)}
+::selection{background:var(--blue-500);color:#fff}
+
+/* BG FX */
+.bg-fx{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
+.bg-orb{position:absolute;border-radius:50%;filter:blur(90px);opacity:.55;will-change:transform;animation:orbFloat 24s ease-in-out infinite}
+.bg-orb-1{width:600px;height:600px;background:radial-gradient(circle,#2563EB,transparent 70%);top:-200px;left:-150px}
+.bg-orb-2{width:500px;height:500px;background:radial-gradient(circle,#8B5CF6,transparent 70%);top:20%;right:-180px;animation-delay:-6s}
+.bg-orb-3{width:550px;height:550px;background:radial-gradient(circle,#06B6D4,transparent 70%);bottom:-200px;left:15%;animation-delay:-12s}
+.bg-orb-4{width:400px;height:400px;background:radial-gradient(circle,#F59E0B,transparent 70%);bottom:15%;right:5%;animation-delay:-18s;opacity:.25}
+[data-theme="light"] .bg-orb{opacity:.3}
+@keyframes orbFloat{0%,100%{transform:translate(0,0) scale(1)}33%{transform:translate(70px,-50px) scale(1.1)}66%{transform:translate(-50px,70px) scale(.95)}}
+.bg-grid{position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.45;background-image:linear-gradient(rgba(96,165,250,.06) 1px,transparent 1px),linear-gradient(90deg,rgba(96,165,250,.06) 1px,transparent 1px);background-size:56px 56px;mask-image:radial-gradient(ellipse at center,black 30%,transparent 75%);-webkit-mask-image:radial-gradient(ellipse at center,black 30%,transparent 75%)}
+[data-theme="light"] .bg-grid{opacity:.7;background-image:linear-gradient(rgba(15,30,61,.06) 1px,transparent 1px),linear-gradient(90deg,rgba(15,30,61,.06) 1px,transparent 1px)}
+.bg-particles{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
+.particle{position:absolute;width:4px;height:4px;border-radius:50%;background:rgba(96,165,250,.7);box-shadow:0 0 8px rgba(96,165,250,.8);animation:particleFloat linear infinite}
+@keyframes particleFloat{0%{transform:translateY(100vh) scale(0);opacity:0}10%{opacity:1}90%{opacity:1}100%{transform:translateY(-100px) scale(1);opacity:0}}
+
+/* ANIMATIONS */
+@keyframes fadeUp{from{opacity:0;transform:translateY(32px)}to{opacity:1;transform:none}}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+@keyframes scaleIn{from{opacity:0;transform:scale(.9)}to{opacity:1;transform:scale(1)}}
+@keyframes slideInRight{from{opacity:0;transform:translateX(40px)}to{opacity:1;transform:none}}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-14px)}}
+@keyframes pulse{0%,100%{transform:scale(1);opacity:1}50%{transform:scale(1.08);opacity:.75}}
+@keyframes spinSlow{from{transform:rotate(0)}to{transform:rotate(360deg)}}
+@keyframes shimmer{0%{background-position:-200% center}100%{background-position:200% center}}
+@keyframes gradientMove{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
+@keyframes glowPulse{0%,100%{box-shadow:0 0 24px rgba(37,99,235,.4)}50%{box-shadow:0 0 48px rgba(37,99,235,.75)}}
+.anim{animation:fadeUp .8s cubic-bezier(.4,0,.2,1) both}
+.anim-d1{animation-delay:.1s}.anim-d2{animation-delay:.2s}.anim-d3{animation-delay:.3s}.anim-d4{animation-delay:.4s}
+.reveal{opacity:0;transform:translateY(30px);transition:opacity .8s cubic-bezier(.4,0,.2,1),transform .8s cubic-bezier(.4,0,.2,1)}
+.reveal.on{opacity:1;transform:none}
+.reveal-d1{transition-delay:.1s}.reveal-d2{transition-delay:.2s}.reveal-d3{transition-delay:.3s}
+
+/* LAYOUT */
+.container{max-width:1320px;margin:0 auto;padding:0 24px;position:relative;z-index:1}
+main{min-height:70vh;position:relative;z-index:1}
+section{padding:88px 0;position:relative;z-index:1}
+.sec-head{text-align:center;margin-bottom:60px;max-width:800px;margin-left:auto;margin-right:auto}
+.sec-head .eyebrow{display:inline-flex;align-items:center;gap:8px;padding:8px 18px;border-radius:99px;background:rgba(37,99,235,.12);border:1px solid rgba(37,99,235,.3);color:var(--cyan-400);font-size:12px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:20px}
+.sec-head h2{font-size:clamp(28px,4.5vw,52px);font-weight:900;letter-spacing:-1.5px;line-height:1.1;margin-bottom:16px}
+.sec-head h2 .grad{background:var(--grad-hero);-webkit-background-clip:text;background-clip:text;color:transparent;background-size:200% auto;animation:shimmer 5s linear infinite}
+.sec-head p{color:var(--text-muted);font-size:17px;max-width:60ch;margin:0 auto}
+
+/* LOGO */
+.kzo-logo{display:flex;align-items:center;gap:14px;font-weight:900;letter-spacing:-1px;transition:transform .35s}
+.kzo-logo:hover{transform:translateY(-2px)}
+.kzo-logo-mark{width:48px;height:48px;border-radius:14px;background:linear-gradient(135deg,#2563EB,#06B6D4,#8B5CF6);display:grid;place-items:center;position:relative;box-shadow:0 0 0 2px rgba(96,165,250,.25),0 12px 32px -8px rgba(37,99,235,.6),inset 0 2px 8px rgba(255,255,255,.3);overflow:hidden;transition:transform .4s}
+.kzo-logo:hover .kzo-logo-mark{transform:scale(1.08) rotate(-5deg)}
+.kzo-logo-mark svg{width:28px;height:28px}
+.kzo-logo-text{display:flex;flex-direction:column;line-height:1}
+.kzo-logo-text b{font-size:22px;font-weight:900;letter-spacing:-1px;background:linear-gradient(180deg,#fff 0%,#C7D2E0 100%);-webkit-background-clip:text;background-clip:text;color:transparent}
+[data-theme="light"] .kzo-logo-text b{background:linear-gradient(180deg,#0A1428 0%,#2563EB 100%);-webkit-background-clip:text;background-clip:text;color:transparent}
+.kzo-logo-text small{font-size:10px;font-weight:700;letter-spacing:3px;color:var(--cyan-400);text-transform:uppercase;margin-top:2px}
+
+/* TOPBAR */
+#topbar{position:sticky;top:0;z-index:200;height:var(--topbar);background:color-mix(in srgb,var(--bg) 75%,transparent);backdrop-filter:blur(24px) saturate(180%);-webkit-backdrop-filter:blur(24px) saturate(180%);border-bottom:1px solid var(--border)}
+.tb-in{max-width:1320px;margin:0 auto;padding:0 24px;height:100%;display:flex;align-items:center;gap:18px}
+.navlinks{display:flex;gap:4px;margin-left:16px}
+.navlinks a{padding:10px 16px;border-radius:11px;font-size:14px;font-weight:600;color:var(--text-muted);transition:.25s;white-space:nowrap;position:relative}
+.navlinks a:hover{color:var(--text);background:var(--surface);transform:translateY(-1px)}
+.navlinks a.active{color:var(--text);background:var(--surface)}
+.navlinks a.active::after{content:'';position:absolute;bottom:4px;left:50%;transform:translateX(-50%);width:20px;height:2px;background:var(--grad-primary);border-radius:2px}
+.tb-right{margin-left:auto;display:flex;align-items:center;gap:10px;flex-shrink:0}
+.searchbox{display:flex;align-items:center;gap:10px;background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:0 14px;height:44px;width:260px;transition:.3s}
+.searchbox:focus-within{border-color:var(--blue-500);box-shadow:0 0 0 4px rgba(37,99,235,.15);width:300px}
+.searchbox input{background:none;border:none;outline:none;width:100%;font-size:14px;color:var(--text)}
+.searchbox input::placeholder{color:var(--text-dim)}
+.searchbox svg{width:17px;height:17px;color:var(--text-muted);flex-shrink:0}
+.iconbtn{width:44px;height:44px;border-radius:12px;display:grid;place-items:center;border:1px solid var(--border);background:var(--surface);transition:.3s;color:var(--text);flex-shrink:0}
+.iconbtn svg{width:18px;height:18px}
+.iconbtn:hover{background:var(--surface-hover);border-color:var(--border-2);transform:translateY(-2px) rotate(6deg)}
+.avatar{width:42px;height:42px;border-radius:50%;background:var(--grad-primary);display:grid;place-items:center;font-weight:800;font-size:15px;color:#fff;cursor:pointer;border:2px solid var(--border-2);box-shadow:0 0 20px rgba(37,99,235,.4);transition:transform .25s}
+.avatar:hover{transform:scale(1.1)}
+.lang-switch{display:flex;background:var(--surface);border:1px solid var(--border);border-radius:11px;padding:3px;gap:2px}
+.lang-switch button{padding:6px 11px;border-radius:8px;font-size:12px;font-weight:800;color:var(--text-muted);transition:.25s;letter-spacing:.5px}
+.lang-switch button.on{background:var(--grad-primary);color:#fff}
+.hamburger{display:none}
+
+/* BUTTONS */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;padding:14px 26px;border-radius:14px;font-weight:700;font-size:15px;transition:.3s cubic-bezier(.4,0,.2,1);white-space:nowrap;border:1.5px solid transparent;cursor:pointer;position:relative;overflow:hidden;letter-spacing:-.2px}
+.btn::before{content:'';position:absolute;inset:0;background:linear-gradient(120deg,transparent,rgba(255,255,255,.3),transparent);transform:translateX(-100%);transition:transform .8s}
+.btn:hover::before{transform:translateX(100%)}
+.btn svg{width:18px;height:18px;position:relative;z-index:1;transition:transform .3s}
+.btn:hover svg{transform:translateX(3px)}
+.btn-primary{background:var(--grad-primary);color:#fff;box-shadow:0 12px 32px -12px var(--blue-500),inset 0 1px 0 rgba(255,255,255,.2);background-size:200% 200%;animation:gradientMove 8s ease infinite}
+.btn-primary:hover{transform:translateY(-3px);box-shadow:0 20px 44px -12px var(--blue-500)}
+.btn-ghost{background:var(--surface);border-color:var(--border);color:var(--text);backdrop-filter:blur(10px)}
+.btn-ghost:hover{background:var(--surface-hover);border-color:var(--border-2);transform:translateY(-3px)}
+.btn-sm{padding:9px 18px;font-size:13.5px;border-radius:11px}
+.btn-sm svg{width:15px;height:15px}
+.btn-lg{padding:18px 36px;font-size:16.5px;border-radius:16px}
+.btn-block{width:100%}
+
+/* CARDS */
+.course-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:24px}
+.course-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);overflow:hidden;display:flex;flex-direction:column;transition:.4s cubic-bezier(.4,0,.2,1);cursor:pointer;position:relative;backdrop-filter:blur(20px)}
+.course-card:hover{transform:translateY(-10px);border-color:var(--border-2);box-shadow:var(--shadow-lg),0 0 60px -12px rgba(37,99,235,.5)}
+.course-cover{height:190px;position:relative;overflow:hidden;display:grid;place-items:center}
+.course-cover-bg{position:absolute;inset:0;transition:transform .6s cubic-bezier(.4,0,.2,1)}
+.course-card:hover .course-cover-bg{transform:scale(1.1)}
+.course-cover::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,transparent 40%,rgba(5,13,31,.7))}
+.course-icon-lg{position:relative;z-index:2;font-size:60px;filter:drop-shadow(0 8px 20px rgba(0,0,0,.5));transition:transform .5s}
+.course-card:hover .course-icon-lg{transform:scale(1.15) rotate(-8deg)}
+.course-badge{position:absolute;top:14px;left:14px;z-index:3;padding:6px 12px;border-radius:9px;font-size:10.5px;font-weight:800;letter-spacing:.8px;text-transform:uppercase;background:rgba(0,0,0,.6);color:#fff;border:1px solid rgba(255,255,255,.15)}
+.course-badge.free{background:linear-gradient(135deg,#10B981,#059669);border-color:transparent}
+.course-badge.hot{background:linear-gradient(135deg,#F59E0B,#EF4444);border-color:transparent}
+.course-price-tag{position:absolute;top:14px;right:14px;z-index:3;padding:8px 14px;border-radius:11px;font-size:14px;font-weight:900;background:rgba(0,0,0,.7);backdrop-filter:blur(10px);color:#fff;border:1px solid rgba(255,255,255,.15)}
+.course-body{padding:22px;display:flex;flex-direction:column;gap:12px;flex:1}
+.course-cat{font-size:11px;font-weight:800;letter-spacing:1.2px;text-transform:uppercase;color:var(--cyan-400)}
+.course-body h3{font-size:17px;font-weight:800;line-height:1.35;color:var(--text)}
+.course-meta{display:flex;gap:16px;font-size:12.5px;color:var(--text-muted);flex-wrap:wrap}
+.course-meta span{display:flex;align-items:center;gap:5px;font-weight:600}
+.course-meta svg{width:14px;height:14px;color:var(--cyan-400)}
+.course-foot{margin-top:auto;padding-top:14px;border-top:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;gap:12px}
+.course-price{font-size:22px;font-weight:900;letter-spacing:-1px}
+.course-price s{font-size:13px;color:var(--text-dim);margin-left:6px;font-weight:600}
+
+/* CATEGORIES */
+.cat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px}
+.cat-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);padding:28px;backdrop-filter:blur(20px);transition:.4s;position:relative;overflow:hidden;cursor:pointer;display:flex;flex-direction:column}
+.cat-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--grad-primary);transform:scaleX(0);transform-origin:left;transition:transform .5s}
+.cat-card:hover::before{transform:scaleX(1)}
+.cat-card:hover{transform:translateY(-8px);border-color:var(--border-2);box-shadow:var(--shadow-lg)}
+.cat-card:hover .cat-icon{transform:scale(1.1) rotate(-8deg)}
+.cat-icon{width:64px;height:64px;border-radius:18px;display:grid;place-items:center;font-size:28px;margin-bottom:20px;transition:transform .4s}
+.cat-card h3{font-size:18px;font-weight:800;letter-spacing:-.4px;margin-bottom:8px}
+.cat-card p{font-size:14px;color:var(--text-muted);line-height:1.6;margin-bottom:18px;flex:1}
+.cat-arrow{display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:800;color:var(--cyan-400);transition:gap .3s}
+.cat-card:hover .cat-arrow{gap:10px}
+
+/* FEATURES */
+.features-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:24px}
+.feature-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);padding:32px 26px;text-align:center;transition:.4s;backdrop-filter:blur(20px)}
+.feature-card:hover{transform:translateY(-6px);border-color:var(--border-2);box-shadow:var(--shadow)}
+.feature-icon{width:72px;height:72px;border-radius:20px;margin:0 auto 20px;display:grid;place-items:center;font-size:32px}
+.feature-card h3{font-size:17px;font-weight:800;margin-bottom:10px}
+.feature-card p{font-size:14px;color:var(--text-muted);line-height:1.65}
+
+/* TESTI */
+.testi-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:24px}
+.testi-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);padding:28px;transition:.4s;backdrop-filter:blur(20px);position:relative}
+.testi-card:hover{transform:translateY(-5px);border-color:var(--border-2);box-shadow:var(--shadow)}
+.testi-stars{color:#FBBF24;font-size:14px;margin-bottom:14px;letter-spacing:2px}
+.testi-text{font-size:14.5px;color:var(--text-soft);line-height:1.7;margin-bottom:20px;font-style:italic}
+.testi-user{display:flex;align-items:center;gap:12px}
+.testi-avatar{width:44px;height:44px;border-radius:50%;background:var(--grad-primary);display:grid;place-items:center;color:#fff;font-weight:800;flex-shrink:0}
+.testi-user-info b{display:block;font-size:14px;font-weight:800}
+.testi-user-info span{font-size:12px;color:var(--text-muted)}
+
+/* HERO */
+.hero{padding:72px 0 88px;position:relative;overflow:hidden}
+.hero-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:60px;align-items:center}
+.hero-badge{display:inline-flex;align-items:center;gap:10px;padding:10px 20px;border-radius:99px;background:linear-gradient(135deg,rgba(37,99,235,.15),rgba(139,92,246,.15));border:1px solid rgba(96,165,250,.3);font-size:12.5px;font-weight:800;color:var(--cyan-400);letter-spacing:1.8px;text-transform:uppercase;margin-bottom:28px}
+.hero-badge .dot{width:8px;height:8px;border-radius:50%;background:var(--green-500);box-shadow:0 0 12px var(--green-500);animation:pulse 2s infinite}
+.hero h1{font-size:clamp(38px,6vw,72px);line-height:1.05;letter-spacing:-3px;font-weight:900;margin-bottom:24px}
+.hero h1 .grad{background:var(--grad-hero);-webkit-background-clip:text;background-clip:text;color:transparent;background-size:200% auto;animation:shimmer 5s linear infinite}
+.hero .lead{font-size:clamp(16px,2vw,19px);color:var(--text-soft);max-width:56ch;margin-bottom:36px;line-height:1.65}
+.hero-cta{display:flex;gap:14px;flex-wrap:wrap;margin-bottom:48px}
+.hero-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;padding-top:32px;border-top:1px solid var(--border)}
+.hstat{text-align:center;position:relative;padding:8px 4px}
+.hstat:not(:last-child)::after{content:'';position:absolute;right:0;top:20%;bottom:20%;width:1px;background:var(--border)}
+.hstat b{display:block;font-size:clamp(22px,3vw,32px);font-weight:900;letter-spacing:-1px;background:linear-gradient(135deg,#06B6D4,#2563EB);-webkit-background-clip:text;background-clip:text;color:transparent;margin-bottom:4px}
+.hstat span{font-size:11.5px;color:var(--text-muted);font-weight:700;text-transform:uppercase;letter-spacing:.8px}
+.hero-visual{position:relative;height:520px;animation:float 7s ease-in-out infinite}
+
+/* CTA */
+.cta-section{background:linear-gradient(135deg,rgba(37,99,235,.12),rgba(139,92,246,.12));border:1px solid var(--border-2);border-radius:var(--r-xl);padding:64px 40px;text-align:center;position:relative;overflow:hidden;backdrop-filter:blur(20px)}
+.cta-section h2{font-size:clamp(26px,4vw,44px);font-weight:900;letter-spacing:-1.5px;margin-bottom:16px}
+.cta-section p{color:var(--text-muted);font-size:17px;margin-bottom:32px;max-width:52ch;margin-left:auto;margin-right:auto}
+.cta-buttons{display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
+
+/* FOOTER */
+.footer{border-top:1px solid var(--border);margin-top:80px;padding:60px 0 32px;background:var(--bg-2)}
+.footer-grid{display:grid;grid-template-columns:2fr repeat(3,1fr);gap:48px}
+.footer h4{font-size:12.5px;font-weight:800;text-transform:uppercase;letter-spacing:1.5px;color:var(--text-muted);margin-bottom:20px}
+.footer a{display:block;font-size:14px;color:var(--text-muted);padding:7px 0;transition:.25s}
+.footer a:hover{color:var(--cyan-400);transform:translateX(5px)}
+.footer p{color:var(--text-muted);font-size:14px;max-width:34ch;line-height:1.7;margin-top:16px}
+
+/* CHATBOT */
+#kzo-chat-btn{position:fixed;bottom:24px;right:24px;z-index:9998;width:64px;height:64px;border-radius:50%;background:var(--grad-primary);border:none;cursor:pointer;color:#fff;font-size:26px;display:grid;place-items:center;box-shadow:0 16px 40px -8px var(--blue-500);transition:.3s;animation:glowPulse 3s infinite}
+#kzo-chat-btn:hover{transform:scale(1.1) rotate(-8deg)}
+#kzo-chat-panel{position:fixed;bottom:100px;right:24px;z-index:9999;width:400px;max-width:calc(100vw - 32px);height:600px;max-height:calc(100vh - 130px);background:var(--bg-2);border:1px solid var(--border-2);border-radius:22px;display:none;flex-direction:column;overflow:hidden;box-shadow:0 32px 80px -20px rgba(0,0,0,.9)}
+#kzo-chat-panel.on{display:flex;animation:scaleIn .35s cubic-bezier(.4,0,.2,1)}
+.kzo-h{background:var(--grad-primary);padding:18px 20px;display:flex;align-items:center;gap:12px;color:#fff}
+.kzo-h .av{width:42px;height:42px;border-radius:50%;background:rgba(255,255,255,.2);display:grid;place-items:center;font-size:20px;flex-shrink:0}
+.kzo-h b{font-size:15px;font-weight:800;display:block}
+.kzo-h small{display:block;font-size:11.5px;opacity:.9}
+.kzo-h .close{margin-left:auto;background:rgba(255,255,255,.15);border:none;color:#fff;font-size:22px;cursor:pointer;width:36px;height:36px;border-radius:50%;display:grid;place-items:center}
+.kzo-body{flex:1;overflow-y:auto;padding:18px;display:flex;flex-direction:column;gap:12px;background:var(--bg)}
+.kzo-msg{max-width:85%;padding:13px 16px;border-radius:16px;font-size:14px;line-height:1.6;word-wrap:break-word;animation:fadeUp .3s}
+.kzo-msg.user{background:var(--grad-primary);color:#fff;align-self:flex-end;border-bottom-right-radius:5px}
+.kzo-msg.ai{background:var(--surface);color:var(--text);border:1px solid var(--border);align-self:flex-start;border-bottom-left-radius:5px}
+.kzo-foot{padding:14px;background:var(--bg-2);border-top:1px solid var(--border);display:flex;gap:10px}
+.kzo-foot input{flex:1;padding:12px 16px;border-radius:12px;background:var(--surface);border:1px solid var(--border);color:var(--text);outline:none;font-size:14px}
+.kzo-foot button{padding:0 20px;border-radius:12px;background:var(--grad-primary);border:none;color:#fff;font-weight:700;cursor:pointer;font-size:15px;min-width:52px}
+
+/* LOADING */
+.loading-screen{position:fixed;inset:0;z-index:99999;background:var(--bg);display:grid;place-items:center}
+.loading-screen .spin{width:56px;height:56px;border:4px solid rgba(96,165,250,.15);border-top-color:var(--blue-500);border-radius:50%;animation:spinSlow 1s linear infinite}
+
+/* RESPONSIVE */
+@media(max-width:1024px){.navlinks{display:none}.searchbox{width:200px}.hero-grid{grid-template-columns:1fr;gap:40px}.hero-visual{height:400px;order:-1}}
+@media(max-width:768px){.hamburger{display:grid}.searchbox{display:none}.lang-switch{display:none}section{padding:60px 0}.hero{padding:40px 0 60px}.footer-grid{grid-template-columns:1fr 1fr;gap:32px}.hero-stats{grid-template-columns:repeat(2,1fr);gap:20px}.hstat:nth-child(2)::after{display:none}#kzo-chat-panel{width:100%;right:0;left:0;bottom:0;top:0;border-radius:0;max-height:100vh}}
+@media(max-width:480px){.container{padding:0 16px}section{padding:48px 0}.course-grid,.cat-grid,.features-grid,.testi-grid{grid-template-columns:1fr}.footer-grid{grid-template-columns:1fr}.hero h1{letter-spacing:-1.5px}.hero-cta .btn{width:100%;justify-content:center}}
+</style>
+</head>
+<body>
+
+<div class="bg-fx">
+  <div class="bg-orb bg-orb-1"></div>
+  <div class="bg-orb bg-orb-2"></div>
+  <div class="bg-orb bg-orb-3"></div>
+  <div class="bg-orb bg-orb-4"></div>
+</div>
+<div class="bg-grid"></div>
+<div class="bg-particles" id="bgParticles"></div>
+
+<div class="loading-screen" id="loadingScreen"><div class="spin"></div></div>
+
+<header id="topbar">
+  <div class="tb-in">
+    <a href="#/" class="kzo-logo">
+      <span class="kzo-logo-mark">
+        <svg viewBox="0 0 100 100" fill="none">
+          <path d="M30 20v60M30 50l30-30M30 50l30 30" stroke="#fff" stroke-width="11" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M68 22l4 8 9 1-6.5 6 1.5 9L68 42l-8 4 1.5-9-6.5-6 9-1z" fill="#FBBF24"/>
+        </svg>
+      </span>
+      <span class="kzo-logo-text"><b>KZO</b><small>ACADEMY</small></span>
+    </a>
+    <nav class="navlinks" id="navlinks"></nav>
+    <div class="tb-right">
+      <form class="searchbox" id="globalsearch">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3" stroke-linecap="round"/></svg>
+        <input type="text" id="searchinput" placeholder="Rechercher une formation…" autocomplete="off">
+      </form>
+      <div class="lang-switch" id="langswitch"></div>
+      <button class="iconbtn" id="themebtn" title="Thème">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4.5"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+      </button>
+      <div id="useractions" style="display:flex;gap:10px;align-items:center;flex-shrink:0"></div>
+      <button class="iconbtn hamburger" id="hamburger"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
+    </div>
+  </div>
+</header>
+
+<main id="app"></main>
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <a href="#/" class="kzo-logo" style="margin-bottom:16px">
+          <span class="kzo-logo-mark"><svg viewBox="0 0 100 100" fill="none"><path d="M30 20v60M30 50l30-30M30 50l30 30" stroke="#fff" stroke-width="11" stroke-linecap="round" stroke-linejoin="round"/><path d="M68 22l4 8 9 1-6.5 6 1.5 9L68 42l-8 4 1.5-9-6.5-6 9-1z" fill="#FBBF24"/></svg></span>
+          <span class="kzo-logo-text"><b>KZO</b><small>ACADEMY</small></span>
+        </a>
+        <p>Plateforme de formation moderne. Apprenez, pratiquez et réussissez avec des cours en français, créole et anglais.</p>
+      </div>
+      <div><h4>Formations</h4><a href="#/courses">Tous les cours</a><a href="#/courses?cat=info">Informatique</a><a href="#/courses?cat=prog">Programmation</a><a href="#/courses?cat=photo">Photographie</a></div>
+      <div><h4>Entreprise</h4><a href="#/about">À propos</a><a href="#/blog">Blog</a><a href="#/contact">Contact</a><a href="#/support">Support</a></div>
+      <div><h4>Légal</h4><a href="privacy.html">Confidentialité</a><a href="terms.html">Conditions</a><a href="#/cookies">Cookies</a></div>
+    </div>
+    <div style="margin-top:56px;padding-top:28px;border-top:1px solid var(--border);text-align:center;color:var(--text-dim);font-size:13px">
+      © <span id="year"></span> KZO Academy — <span style="color:var(--cyan-400);font-weight:700">Apprendre • Pratiquer • Réussir</span>
+    </div>
+  </div>
+</footer>
+
+<button id="kzo-chat-btn" title="KZO Assistant">💬</button>
+<div id="kzo-chat-panel">
+  <div class="kzo-h">
+    <div class="av">🤖</div>
+    <div><b>KZO Assistant</b><small>IA · Disponible 24/7</small></div>
+    <button class="close" id="kzo-close">×</button>
+  </div>
+  <div class="kzo-body" id="kzo-body">
+    <div class="kzo-msg ai">Bonjour 👋 Je suis <b>KZO Assistant</b>. Posez-moi une question sur nos formations !</div>
+  </div>
+  <div class="kzo-foot">
+    <input id="kzo-input" placeholder="Posez votre question…" autocomplete="off">
+    <button id="kzo-send">➤</button>
+  </div>
+</div>
+
+<div id="toasts" style="position:fixed;bottom:24px;right:24px;z-index:99999;display:flex;flex-direction:column;gap:10px"></div>
+
+<script>
+// ============================================================
+// CONFIGURATION SUPABASE
+// ============================================================
+const SUPABASE_URL = 'https://novugfeqscwehmandfsi.supabase.co';
+const SUPABASE_ANON_KEY = 'sb_publishable_1hd4mM5EJw6ffRBCfmJkWw_jPny_gON';
+const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+// ============================================================
+// STATE
+// ============================================================
+const state = {
+  lang: 'fr',
+  theme: 'dark',
+  user: null,
+  courses: [],
+  favorites: [],
+  searchQ: '',
+};
+
+// ============================================================
+// I18N
+// ============================================================
+const I18N = {
+  fr: {
+    home:'Accueil', courses:'Cours', about:'À propos', blog:'Blog', contact:'Contact',
+    login:'Connexion', register:'S\'inscrire', logout:'Déconnexion', dashboard:'Tableau de bord',
+    hero_badge:'Apprendre • Pratiquer • Réussir',
+    hero_title_1:'Formez votre avenir', hero_title_2:'avec les compétences', hero_title_3:'du monde réel',
+    hero_lead:'Des cours pratiques, modernes et accessibles en créole, français et anglais. Développez vos talents et construisez la vie que vous voulez.',
+    cta_explore:'Explorer les cours', cta_video:'Voir la vidéo',
+    stat_students:'Étudiants', stat_courses:'Cours', stat_rating:'Note', stat_langs:'Langues',
+    cats_title:'Nos catégories de formation', cats_sub:'Choisis ta voie et commence dès aujourd\'hui',
+    popular_title:'Formations populaires', popular_sub:'Les cours les plus suivis',
+    why_title:'Pourquoi choisir KZO Academy ?', why_sub:'Une plateforme pensée pour les apprenants d\'aujourd\'hui',
+    testi_title:'Ils ont transformé leur avenir', testi_sub:'Rejoins des milliers d\'étudiants qui réussissent',
+    cta_title:'Prêt à transformer votre avenir ?', cta_sub:'Rejoignez KZO Academy aujourd\'hui.',
+    cta_start:'Commencer gratuitement', cta_contact:'Nous contacter',
+    view_all:'Voir tout', enroll:'S\'inscrire', free:'Gratuit',
+    difficulty_beginner:'Débutant', difficulty_intermediate:'Intermédiaire', difficulty_advanced:'Avancé',
+    about_title:'À propos de KZO Academy', about_lead:'Nous formons la nouvelle génération de talents digitaux.',
+    contact_title:'Contactez-nous', contact_sub:'Une question ? Écrivez-nous.',
+    contact_name:'Nom complet', contact_email:'Email', contact_msg:'Message', contact_send:'Envoyer',
+    blog_title:'Blog & Actualités', blog_sub:'Conseils et actualités',
+    loading:'Chargement des cours…', no_courses:'Aucun cours disponible', error_loading:'Erreur de chargement',
+  },
+  ht: {
+    home:'Akèy', courses:'Kou', about:'Konsènan', blog:'Blog', contact:'Kontak',
+    login:'Konekte', register:'Enskri', logout:'Dekonekte', dashboard:'Tablo',
+    hero_badge:'Aprann • Pratike • Reyisi',
+    hero_title_1:'Fòme avni w', hero_title_2:'ak konpetans', hero_title_3:'mond reyèl la',
+    hero_lead:'Kou pratik, modèn ak aksesib an kreyòl, fransè ak anglè.',
+    cta_explore:'Eksplore kou yo', cta_video:'Wè videyo',
+    stat_students:'Elèv', stat_courses:'Kou', stat_rating:'Nòt', stat_langs:'Lang',
+    cats_title:'Kategori fòmasyon nou', cats_sub:'Chwazi chemen w epi kòmanse',
+    popular_title:'Fòmasyon popilè', popular_sub:'Kou ki pi swiv',
+    why_title:'Poukisa chwazi KZO Academy ?', why_sub:'Yon platfòm pou aprantis jodi a',
+    testi_title:'Yo chanje avni yo', testi_sub:'Rantre nan milye elèv',
+    cta_title:'Pare pou chanje avni w ?', cta_sub:'Rantre nan KZO Academy jodi a.',
+    cta_start:'Kòmanse gratis', cta_contact:'Kontakte nou',
+    view_all:'Wè tout', enroll:'Enskri', free:'Gratis',
+    difficulty_beginner:'Debitan', difficulty_intermediate:'Entèmedyè', difficulty_advanced:'Avanse',
+    about_title:'Konsènan KZO Academy', about_lead:'Nou fòme nouvo jenerasyon talan dijital.',
+    contact_title:'Kontakte nou', contact_sub:'Yon kesyon ? Ekri nou.',
+    contact_name:'Non konplè', contact_email:'Imèl', contact_msg:'Mesaj', contact_send:'Voye',
+    blog_title:'Blog & Aktyalite', blog_sub:'Konsèy ak aktyalite',
+    loading:'Chajman kou yo…', no_courses:'Pa gen kou disponib', error_loading:'Erè chajman',
+  },
+  en: {
+    home:'Home', courses:'Courses', about:'About', blog:'Blog', contact:'Contact',
+    login:'Login', register:'Sign up', logout:'Log out', dashboard:'Dashboard',
+    hero_badge:'Learn • Practice • Succeed',
+    hero_title_1:'Shape your future', hero_title_2:'with real-world', hero_title_3:'skills',
+    hero_lead:'Practical, modern courses in Haitian Creole, French and English.',
+    cta_explore:'Explore courses', cta_video:'Watch video',
+    stat_students:'Students', stat_courses:'Courses', stat_rating:'Rating', stat_langs:'Languages',
+    cats_title:'Our course categories', cats_sub:'Choose your path',
+    popular_title:'Popular courses', popular_sub:'The most followed courses',
+    why_title:'Why choose KZO Academy?', why_sub:'A platform for today\'s learners',
+    testi_title:'They transformed their future', testi_sub:'Join thousands of students',
+    cta_title:'Ready to transform your future?', cta_sub:'Join KZO Academy today.',
+    cta_start:'Start for free', cta_contact:'Contact us',
+    view_all:'View all', enroll:'Enroll', free:'Free',
+    difficulty_beginner:'Beginner', difficulty_intermediate:'Intermediate', difficulty_advanced:'Advanced',
+    about_title:'About KZO Academy', about_lead:'We train the new generation of digital talents.',
+    contact_title:'Contact us', contact_sub:'A question? Write to us.',
+    contact_name:'Full name', contact_email:'Email', contact_msg:'Message', contact_send:'Send',
+    blog_title:'Blog & News', blog_sub:'Tips and news',
+    loading:'Loading courses…', no_courses:'No courses available', error_loading:'Loading error',
+  }
+};
+const t = (key) => (I18N[state.lang] && I18N[state.lang][key]) || I18N.fr[key] || key;
+
+// ============================================================
+// CATEGORIES
+// ============================================================
+const CATEGORIES = [
+  {id:'info', icon:'💻', grad:'linear-gradient(135deg,#2563EB,#06B6D4)', name:{fr:'Informatique',ht:'Enfòmatik',en:'IT'}, desc:{fr:'Réseau, Android, dépannage',ht:'Rezo, Android, depannaj',en:'Network, Android, repair'}},
+  {id:'prog', icon:'⌨️', grad:'linear-gradient(135deg,#8B5CF6,#2563EB)', name:{fr:'Programmation',ht:'Pwogramasyon',en:'Programming'}, desc:{fr:'HTML, CSS, Python, SQL',ht:'HTML, CSS, Python',en:'HTML, CSS, Python'}},
+  {id:'photo', icon:'📷', grad:'linear-gradient(135deg,#06B6D4,#10B981)', name:{fr:'Photographie',ht:'Fotografi',en:'Photography'}, desc:{fr:'Studio, lumière, retouche',ht:'Estidyo, limyè',en:'Studio, lighting'}},
+  {id:'video', icon:'🎬', grad:'linear-gradient(135deg,#8B5CF6,#EC4899)', name:{fr:'Montage Vidéo',ht:'Montaj Videyo',en:'Video Editing'}, desc:{fr:'CapCut, Premiere Pro',ht:'CapCut, Premiere Pro',en:'CapCut, Premiere Pro'}},
+  {id:'biz', icon:'🛒', grad:'linear-gradient(135deg,#F59E0B,#EF4444)', name:{fr:'E-commerce',ht:'E-kòmès',en:'E-commerce'}, desc:{fr:'Shopify, dropshipping',ht:'Shopify, dropshipping',en:'Shopify, dropshipping'}},
+  {id:'web', icon:'🌐', grad:'linear-gradient(135deg,#2563EB,#8B5CF6)', name:{fr:'Création Site Web',ht:'Kreyasyon Sit',en:'Web Creation'}, desc:{fr:'WordPress, SEO',ht:'WordPress, SEO',en:'WordPress, SEO'}},
+];
+
+// ============================================================
+// HELPERS
+// ============================================================
+const $ = (s) => document.querySelector(s);
+const $$ = (s) => Array.from(document.querySelectorAll(s));
+const esc = (s) => String(s == null ? '' : s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+
+function toast(msg, type){
+  type = type || 'info';
+  const colors = {ok:'#10B981', err:'#EF4444', info:'#2563EB'};
+  const d = document.createElement('div');
+  d.style.cssText = 'background:var(--bg-2);border:1px solid var(--border-2);border-left:3px solid ' + colors[type] + ';border-radius:14px;padding:14px 20px;box-shadow:var(--shadow-lg);font-size:14px;font-weight:600;color:var(--text);animation:slideInRight .4s;max-width:340px';
+  d.textContent = msg;
+  $('#toasts').appendChild(d);
+  setTimeout(() => { d.style.opacity = '0'; d.style.transform = 'translateX(40px)'; d.style.transition = '.4s'; setTimeout(() => d.remove(), 400); }, 3500);
+}
+
+// ============================================================
+// DATA LOADING
+// ============================================================
+async function loadCoursesFromDB(){
+  try {
+    const { data, error } = await sb.from('courses')
+      .select('*')
+      .order('created_at', { ascending: false });
+    
+    if(error){
+      console.error('Erè chaje kou:', error);
+      return [];
+    }
+    
+    console.log('✅ Kou chaje:', data.length);
+    
+    // Fòma done yo
+    return (data || []).map(c => {
+      const cat = CATEGORIES.find(x => x.id === c.category_id) || CATEGORIES[0];
+      return {
+        id: c.id,
+        slug: c.slug,
+        cat: c.category_id || 'info',
+        icon: c.icon || cat.icon,
+        grad: cat.grad,
+        title: {
+          fr: c.title,
+          ht: c.title,
+          en: c.title
+        },
+        level: c.level || 'beginner',
+        hours: c.hours || 10,
+        rating: Number(c.rating) || 4.8,
+        students: c.students_count || 0,
+        price: Number(c.price) || 0,
+        oldPrice: c.old_price ? Number(c.old_price) : 0,
+        badge: c.badge || (Number(c.price) === 0 ? 'free' : ''),
+        desc: c.description || ''
+      };
+    });
+  } catch(err){
+    console.error('Erè:', err);
+    return [];
+  }
+}
+
+// ============================================================
+// ROUTER
+// ============================================================
+function parseHash(){
+  const h = location.hash.replace(/^#\/?/, '');
+  const [path, qs] = h.split('?');
+  return { parts: path.split('/').filter(Boolean), q: new URLSearchParams(qs || '') };
+}
+
+function render(){
+  const { parts, q } = parseHash();
+  const root = parts[0] || '';
+  let html = '';
+  
+  switch(root){
+    case '': html = viewHome(); break;
+    case 'courses': html = viewCourses(q); break;
+    case 'about': html = viewAbout(); break;
+    case 'blog': html = viewBlog(); break;
+    case 'contact': html = viewContact(); break;
+    case 'login': html = viewLogin(); break;
+    case 'register': html = viewRegister(); break;
+    case 'dashboard': html = viewDashboard(); break;
+    default: html = viewNotFound();
+  }
+  
+  $('#app').innerHTML = html;
+  window.scrollTo({top:0, behavior:'instant'});
+  paintChrome();
+  bindView();
+  initReveal();
+}
+
+// ============================================================
+// CHROME
+// ============================================================
+function paintChrome(){
+  const cur = location.hash || '#/';
+  const nav = [['#/','home'],['#/courses','courses'],['#/about','about'],['#/blog','blog'],['#/contact','contact']];
+  
+  $('#navlinks').innerHTML = nav.map(([h, k]) => {
+    const on = (h === '#/' && (cur === '#/' || cur === '')) || (h !== '#/' && cur.startsWith(h));
+    return '<a href="' + h + '" class="' + (on ? 'active' : '') + '">' + t(k) + '</a>';
+  }).join('');
+  
+  $('#langswitch').innerHTML = [['fr','FR'],['ht','KR'],['en','EN']].map(([c, l]) =>
+    '<button data-lang="' + c + '" class="' + (state.lang === c ? 'on' : '') + '">' + l + '</button>'
+  ).join('');
+  
+  const ua = $('#useractions');
+  if(state.user){
+    const initial = (state.user.name || state.user.email || 'U').charAt(0).toUpperCase();
+    ua.innerHTML = '<a href="#/dashboard" class="btn btn-ghost btn-sm">' + t('dashboard') + '</a>' +
+      '<div class="avatar" id="avatarbtn" title="' + esc(state.user.name || state.user.email) + '">' + esc(initial) + '</div>';
+  } else {
+    ua.innerHTML = '<a href="#/login" class="btn btn-ghost btn-sm">' + t('login') + '</a>' +
+      '<a href="#/register" class="btn btn-primary btn-sm">' + t('register') + '</a>';
+  }
+  
+  $('#year').textContent = new Date().getFullYear();
+}
+
+// ============================================================
+// COURSE CARD
+// ============================================================
+function courseCard(c, delay){
+  delay = delay || 0;
+  const title = c.title[state.lang] || c.title.fr;
+  const cat = CATEGORIES.find(x => x.id === c.cat) || CATEGORIES[0];
+  
+  return '<a href="#/courses" class="course-card anim" style="animation-delay:' + delay + 's">' +
+    '<div class="course-cover">' +
+      '<div class="course-cover-bg" style="background:' + c.grad + '"></div>' +
+      '<span class="course-icon-lg">' + c.icon + '</span>' +
+      (c.price === 0 ? '<span class="course-badge free">' + t('free') + '</span>' : (c.badge === 'hot' ? '<span class="course-badge hot">🔥 Populaire</span>' : '')) +
+      '<span class="course-price-tag">' + (c.price === 0 ? t('free') : '$' + c.price) + '</span>' +
+    '</div>' +
+    '<div class="course-body">' +
+      '<div class="course-cat">' + esc(cat.name[state.lang]) + '</div>' +
+      '<h3>' + esc(title) + '</h3>' +
+      '<div class="course-meta">' +
+        '<span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/></svg>' + c.hours + 'h</span>' +
+        '<span><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.5l2.9 6 6.6.9-4.8 4.6 1.2 6.5L12 17.4l-5.9 3.1 1.2-6.5L2.5 9.4l6.6-.9z"/></svg>' + c.rating + '</span>' +
+        '<span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><circle cx="12" cy="8" r="3.6"/><path d="M4.5 20.5c0-4 3.4-7 7.5-7s7.5 3 7.5 7"/></svg>' + (c.students/1000).toFixed(1) + 'k</span>' +
+      '</div>' +
+      '<div class="course-foot">' +
+        '<span class="course-price">' + (c.price === 0 ? t('free') : '$' + c.price) + (c.oldPrice ? '<s>$' + c.oldPrice + '</s>' : '') + '</span>' +
+        '<span class="btn btn-primary btn-sm">' + t('enroll') + '</span>' +
+      '</div>' +
+    '</div>' +
+  '</a>';
+}
+
+// ============================================================
+// VIEWS
+// ============================================================
+function viewHome(){
+  if(state.courses.length === 0){
+    return '<section style="padding-top:120px"><div class="container" style="text-align:center"><div class="loading-screen" style="position:static;background:transparent;min-height:300px"><div class="spin"></div></div><p style="color:var(--text-muted);margin-top:20px">' + t('loading') + '</p></div></section>';
+  }
+  
+  const featured = state.courses.slice(0, 8);
+  const totalStudents = state.courses.reduce((a,c) => a + c.students, 0);
+  
+  return `
+    <section class="hero">
+      <div class="container">
+        <div class="hero-grid">
+          <div>
+            <div class="hero-badge anim"><span class="dot"></span>${t('hero_badge')}</div>
+            <h1 class="anim anim-d1">${t('hero_title_1')} <span class="grad">${t('hero_title_2')}</span> ${t('hero_title_3')}</h1>
+            <p class="lead anim anim-d2">${t('hero_lead')}</p>
+            <div class="hero-cta anim anim-d3">
+              <a href="#/courses" class="btn btn-primary btn-lg">${t('cta_explore')} <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M9 6l6 6-6 6"/></svg></a>
+              <a href="#/courses" class="btn btn-ghost btn-lg">▶ ${t('cta_video')}</a>
+            </div>
+            <div class="hero-stats anim anim-d4">
+              <div class="hstat"><b>${totalStudents}+</b><span>${t('stat_students')}</span></div>
+              <div class="hstat"><b>${state.courses.length}</b><span>${t('stat_courses')}</span></div>
+              <div class="hstat"><b>4.8</b><span>${t('stat_rating')}</span></div>
+              <div class="hstat"><b>3</b><span>${t('stat_langs')}</span></div>
+            </div>
+          </div>
+          <div class="hero-visual anim anim-d2">${heroSVG()}</div>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="container">
+        <div class="sec-head reveal">
+          <div class="eyebrow">🎯 ${t('cats_title')}</div>
+          <h2>${t('cats_title')}</h2>
+          <p>${t('cats_sub')}</p>
+        </div>
+        <div class="cat-grid">
+          ${CATEGORIES.map((c, i) => `
+            <a href="#/courses?cat=${c.id}" class="cat-card reveal ${i < 4 ? 'reveal-d' + (i % 4) : ''}">
+              <div class="cat-icon" style="background:${c.grad};color:#fff">${c.icon}</div>
+              <h3>${c.name[state.lang]}</h3>
+              <p>${c.desc[state.lang]}</p>
+              <span class="cat-arrow">Découvrir →</span>
+            </a>
+          `).join('')}
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="container">
+        <div class="sec-head reveal">
+          <div class="eyebrow">🔥 ${t('popular_title')}</div>
+          <h2>${t('popular_title')}</h2>
+          <p>${t('popular_sub')}</p>
+        </div>
+        <div class="course-grid">
+          ${featured.map((c, i) => courseCard(c, i * 0.05)).join('')}
+        </div>
+        <div style="text-align:center;margin-top:48px" class="reveal">
+          <a href="#/courses" class="btn btn-primary btn-lg">${t('view_all')}</a>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="container">
+        <div class="sec-head reveal">
+          <div class="eyebrow">⭐ ${t('why_title')}</div>
+          <h2>${t('why_title')}</h2>
+          <p>${t('why_sub')}</p>
+        </div>
+        <div class="features-grid">
+          ${[
+            {icon:'🎓', color:'#2563EB', title:'Formateurs experts', desc:'Des professionnels qui partagent leur expérience.'},
+            {icon:'🌍', color:'#06B6D4', title:'3 langues', desc:'Apprenez en français, créole ou anglais.'},
+            {icon:'📱', color:'#8B5CF6', title:'Accès mobile', desc:'Vos cours depuis n\'importe quel appareil.'},
+            {icon:'🏆', color:'#F59E0B', title:'Certificats', desc:'Certificat vérifiable à chaque fin de cours.'},
+          ].map((f, i) => `
+            <div class="feature-card reveal ${i < 3 ? 'reveal-d' + i : ''}">
+              <div class="feature-icon" style="background:${f.color}22;color:${f.color};border:1px solid ${f.color}44">${f.icon}</div>
+              <h3>${f.title}</h3>
+              <p>${f.desc}</p>
+            </div>
+          `).join('')}
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="container">
+        <div class="cta-section reveal">
+          <h2>${t('cta_title')}</h2>
+          <p>${t('cta_sub')}</p>
+          <div class="cta-buttons">
+            <a href="#/register" class="btn btn-primary btn-lg">${t('cta_start')}</a>
+            <a href="#/contact" class="btn btn-ghost btn-lg">${t('cta_contact')}</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  `;
+}
+
+function viewCourses(q){
+  const catF = q.get('cat') || 'all';
+  const searchQ = q.get('q') || '';
+  
+  let list = state.courses.slice();
+  if(catF !== 'all') list = list.filter(c => c.cat === catF);
+  if(searchQ){
+    const s = searchQ.toLowerCase();
+    list = list.filter(c => (c.title[state.lang] || c.title.fr).toLowerCase().includes(s));
+  }
+  
+  return `
+    <section style="padding-top:60px">
+      <div class="container">
+        <div class="sec-head reveal">
+          <div class="eyebrow">📚 ${t('courses')}</div>
+          <h2>${searchQ ? 'Résultats pour « ' + esc(searchQ) + ' »' : t('courses')}</h2>
+          <p>${list.length} cours disponibles</p>
+        </div>
+        <div class="reveal" style="background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);padding:28px;margin-bottom:40px">
+          <div style="margin-bottom:16px;font-size:12px;font-weight:800;color:var(--text-muted);letter-spacing:1.5px;text-transform:uppercase">Catégorie</div>
+          <div style="display:flex;gap:10px;flex-wrap:wrap">
+            <button class="chip" data-cat="all" style="padding:10px 20px;border-radius:99px;background:${catF === 'all' ? 'var(--grad-primary)' : 'var(--surface)'};color:${catF === 'all' ? '#fff' : 'var(--text-muted)'};border:1px solid var(--border);font-size:14px;font-weight:700;cursor:pointer">Tout</button>
+            ${CATEGORIES.map(c => `<button class="chip" data-cat="${c.id}" style="padding:10px 20px;border-radius:99px;background:${catF === c.id ? 'var(--grad-primary)' : 'var(--surface)'};color:${catF === c.id ? '#fff' : 'var(--text-muted)'};border:1px solid var(--border);font-size:14px;font-weight:700;cursor:pointer">${c.icon} ${c.name[state.lang]}</button>`).join('')}
+          </div>
+        </div>
+        ${list.length ? `<div class="course-grid">${list.map((c, i) => courseCard(c, i * 0.05)).join('')}</div>`
+          : '<div style="text-align:center;padding:80px 20px;color:var(--text-muted)"><div style="font-size:56px;margin-bottom:20px">🔍</div><h3 style="font-size:20px;color:var(--text);margin-bottom:10px">' + t('no_courses') + '</h3></div>'}
+      </div>
+    </section>
+  `;
+}
+
+function viewAbout(){
+  return '<section style="padding-top:80px"><div class="container" style="max-width:900px"><div class="sec-head reveal"><div class="eyebrow">ℹ️ ' + t('about_title') + '</div><h2>' + t('about_title') + '</h2><p>' + t('about_lead') + '</p></div><div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--r-xl);padding:48px;margin-bottom:40px" class="reveal"><p style="font-size:16px;color:var(--text-soft);line-height:1.9;margin-bottom:24px">KZO Academy est née d\'une conviction simple : tout le monde mérite une formation de qualité, accessible et pratique. Nous proposons des cours modernes en informatique, programmation, photographie, montage vidéo et e-commerce.</p><p style="font-size:16px;color:var(--text-soft);line-height:1.9;margin-bottom:24px">Nos formations sont disponibles en trois langues — français, créole haïtien et anglais — pour que chacun puisse apprendre dans la langue qui lui convient.</p><p style="font-size:16px;color:var(--text-soft);line-height:1.9">Notre mission : permettre à chaque apprenant de développer des compétences concrètes et de construire un avenir meilleur.</p></div></div></section>';
+}
+
+function viewBlog(){
+  return '<section style="padding-top:80px"><div class="container"><div class="sec-head reveal"><div class="eyebrow">📰 ' + t('blog_title') + '</div><h2>' + t('blog_title') + '</h2><p>' + t('blog_sub') + '</p></div><div style="text-align:center;padding:80px 20px;color:var(--text-muted)"><div style="font-size:56px;margin-bottom:20px">📝</div><p>Articles à venir…</p></div></div></section>';
+}
+
+function viewContact(){
+  return '<section style="padding-top:80px"><div class="container" style="max-width:720px"><div class="sec-head reveal"><div class="eyebrow">✉️ ' + t('contact_title') + '</div><h2>' + t('contact_title') + '</h2><p>' + t('contact_sub') + '</p></div><div class="reveal" style="background:var(--surface);border:1px solid var(--border);border-radius:var(--r-xl);padding:40px"><div style="margin-bottom:20px"><label style="display:block;font-size:13px;font-weight:800;color:var(--text-muted);margin-bottom:8px">' + t('contact_name') + '</label><input type="text" style="width:100%;padding:14px 18px;border-radius:12px;background:var(--bg-2);border:1px solid var(--border);color:var(--text);outline:none;font-size:15px"></div><div style="margin-bottom:20px"><label style="display:block;font-size:13px;font-weight:800;color:var(--text-muted);margin-bottom:8px">' + t('contact_email') + '</label><input type="email" style="width:100%;padding:14px 18px;border-radius:12px;background:var(--bg-2);border:1px solid var(--border);color:var(--text);outline:none;font-size:15px"></div><div style="margin-bottom:28px"><label style="display:block;font-size:13px;font-weight:800;color:var(--text-muted);margin-bottom:8px">' + t('contact_msg') + '</label><textarea rows="5" style="width:100%;padding:14px 18px;border-radius:12px;background:var(--bg-2);border:1px solid var(--border);color:var(--text);outline:none;font-size:15px;resize:vertical;font-family:inherit"></textarea></div><button class="btn btn-primary btn-block btn-lg" onclick="toast(\'Message envoyé ✓\',\'ok\')" style="width:100%">' + t('contact_send') + '</button></div></div></section>';
+}
+
+function viewLogin(){
+  return '<section style="padding-top:80px;min-height:70vh"><div class="container" style="max-width:460px"><div class="reveal" style="background:var(--surface);border:1px solid var(--border);border-radius:var(--r-xl);padding:44px"><div style="text-align:center;margin-bottom:32px"><h1 style="font-size:28px;font-weight:900">Connexion</h1></div><form id="loginForm"><div style="margin-bottom:18px"><label style="display:block;font-size:13px;font-weight:700;color:var(--text-muted);margin-bottom:8px">Email</label><input type="email" id="loginEmail" required style="width:100%;padding:14px 18px;border-radius:12px;background:var(--bg-2);border:1px solid var(--border);color:var(--text);outline:none;font-size:15px"></div><div style="margin-bottom:26px"><label style="display:block;font-size:13px;font-weight:700;color:var(--text-muted);margin-bottom:8px">Mot de passe</label><input type="password" id="loginPass" required style="width:100%;padding:14px 18px;border-radius:12px;background:var(--bg-2);border:1px solid var(--border);color:var(--text);outline:none;font-size:15px"></div><button type="submit" id="loginBtn" class="btn btn-primary btn-block btn-lg" style="width:100%">Se connecter</button></form><p style="text-align:center;margin-top:24px;color:var(--text-muted);font-size:14px">Pas de compte ? <a href="#/register" style="color:var(--cyan-400);font-weight:800">S\'inscrire</a></p></div></div></section>';
+}
+
+function viewRegister(){
+  return '<section style="padding-top:80px;min-height:70vh"><div class="container" style="max-width:460px"><div class="reveal" style="background:var(--surface);border:1px solid var(--border);border-radius:var(--r-xl);padding:44px"><div style="text-align:center;margin-bottom:32px"><h1 style="font-size:28px;font-weight:900">Créer un compte</h1></div><form id="registerForm"><div style="margin-bottom:18px"><label style="display:block;font-size:13px;font-weight:700;color:var(--text-muted);margin-bottom:8px">Nom complet</label><input type="text" id="regName" required style="width:100%;padding:14px 18px;border-radius:12px;background:var(--bg-2);border:1px solid var(--border);color:var(--text);outline:none;font-size:15px"></div><div style="margin-bottom:18px"><label style="display:block;font-size:13px;font-weight:700;color:var(--text-muted);margin-bottom:8px">Email</label><input type="email" id="regEmail" required style="width:100%;padding:14px 18px;border-radius:12px;background:var(--bg-2);border:1px solid var(--border);color:var(--text);outline:none;font-size:15px"></div><div style="margin-bottom:26px"><label style="display:block;font-size:13px;font-weight:700;color:var(--text-muted);margin-bottom:8px">Mot de passe</label><input type="password" id="regPass" required minlength="6" style="width:100%;padding:14px 18px;border-radius:12px;background:var(--bg-2);border:1px solid var(--border);color:var(--text);outline:none;font-size:15px"></div><button type="submit" id="regBtn" class="btn btn-primary btn-block btn-lg" style="width:100%">Créer mon compte</button></form><p style="text-align:center;margin-top:24px;color:var(--text-muted);font-size:14px">Déjà un compte ? <a href="#/login" style="color:var(--cyan-400);font-weight:800">Se connecter</a></p></div></div></section>';
+}
+
+function viewDashboard(){
+  if(!state.user){
+    return '<section style="padding-top:120px"><div class="container" style="text-align:center"><h2>Connectez-vous pour accéder</h2><a href="#/login" class="btn btn-primary" style="margin-top:20px">Se connecter</a></div></section>';
+  }
+  return '<section style="padding-top:80px"><div class="container"><div class="sec-head reveal"><div class="eyebrow">📊 Tableau de bord</div><h2>Bienvenue, ' + esc(state.user.name || 'Étudiant') + '</h2><p>Suivez votre progression et accédez à vos cours</p></div><div class="course-grid reveal">' + state.courses.slice(0, 3).map((c, i) => courseCard(c, i * 0.1)).join('') + '</div></div></section>';
+}
+
+function viewNotFound(){
+  return '<section style="padding-top:120px;text-align:center"><div class="container"><div style="font-size:120px;margin-bottom:20px">🧭</div><h1 style="font-size:32px;font-weight:900;margin-bottom:16px">Page introuvable</h1><a href="#/" class="btn btn-primary btn-lg">Retour à l\'accueil</a></div></section>';
+}
+
+// ============================================================
+// HERO SVG
+// ============================================================
+function heroSVG(){
+  return '<svg viewBox="0 0 500 500" style="width:100%;height:100%">' +
+    '<defs>' +
+      '<linearGradient id="hg1" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#2563EB"/><stop offset="1" stop-color="#06B6D4"/></linearGradient>' +
+      '<linearGradient id="hg2" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#8B5CF6"/><stop offset="1" stop-color="#EC4899"/></linearGradient>' +
+      '<linearGradient id="hg3" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#0F1E3D"/><stop offset="1" stop-color="#050D1F"/></linearGradient>' +
+    '</defs>' +
+    '<circle cx="250" cy="250" r="200" fill="url(#hg1)" opacity=".15"><animate attributeName="r" values="200;220;200" dur="5s" repeatCount="indefinite"/></circle>' +
+    '<circle cx="380" cy="150" r="100" fill="url(#hg2)" opacity=".2"><animate attributeName="r" values="100;120;100" dur="4s" repeatCount="indefinite"/></circle>' +
+    '<rect x="90" y="120" width="320" height="260" rx="20" fill="url(#hg3)" stroke="rgba(96,165,250,.3)" stroke-width="1.5"/>' +
+    '<rect x="115" y="150" width="90" height="10" rx="5" fill="#8B5CF6" opacity=".95"><animate attributeName="width" values="90;140;90" dur="3s" repeatCount="indefinite"/></rect>' +
+    '<rect x="115" y="172" width="180" height="7" rx="3.5" fill="#06B6D4" opacity=".8"/>' +
+    '<rect x="130" y="190" width="120" height="7" rx="3.5" fill="#2563EB" opacity=".9"/>' +
+    '<rect x="130" y="206" width="200" height="7" rx="3.5" fill="#8B5CF6" opacity=".7"/>' +
+    '<rect x="115" y="224" width="80" height="7" rx="3.5" fill="#F59E0B" opacity=".85"/>' +
+    '<circle cx="320" cy="240" r="36" fill="rgba(96,165,250,.15)" stroke="rgba(96,165,250,.5)" stroke-width="2"><animate attributeName="r" values="36;42;36" dur="2s" repeatCount="indefinite"/></circle>' +
+    '<path d="M310 226v28l24-14z" fill="#fff"/>' +
+  '</svg>';
+}
+
+// ============================================================
+// BIND
+// ============================================================
+function bindView(){
+  // Category filters
+  $$('[data-cat]').forEach(el => el.addEventListener('click', () => {
+    const cat = el.dataset.cat;
+    location.hash = '#/courses' + (cat !== 'all' ? '?cat=' + cat : '');
+  }));
+  
+  // Auth forms
+  bindAuthForms();
+}
+
+function bindAuthForms(){
+  const loginForm = $('#loginForm');
+  if(loginForm){
+    loginForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const email = $('#loginEmail').value.trim();
+      const pass = $('#loginPass').value;
+      const btn = $('#loginBtn');
+      
+      if(!email || !pass){ toast('Remplissez tous les champs', 'err'); return; }
+      
+      btn.disabled = true;
+      btn.textContent = 'Connexion…';
+      
+      const { data, error } = await sb.auth.signInWithPassword({ email, password: pass });
+      
+      btn.disabled = false;
+      btn.textContent = 'Se connecter';
+      
+      if(error){ toast('Erreur: ' + error.message, 'err'); return; }
+      
+      toast('Connexion réussie ✓', 'ok');
+      state.user = {
+        id: data.user.id,
+        email: data.user.email,
+        name: data.user.user_metadata?.full_name || data.user.email
+      };
+      location.hash = '#/dashboard';
+    });
+  }
+  
+  const registerForm = $('#registerForm');
+  if(registerForm){
+    registerForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const name = $('#regName').value.trim();
+      const email = $('#regEmail').value.trim();
+      const pass = $('#regPass').value;
+      const btn = $('#regBtn');
+      
+      if(!name || !email || pass.length < 6){
+        toast('Vérifiez les informations', 'err');
+        return;
+      }
+      
+      btn.disabled = true;
+      btn.textContent = 'Création…';
+      
+      const { data, error } = await sb.auth.signUp({
+        email,
+        password: pass,
+        options: { data: { full_name: name } }
+      });
+      
+      btn.disabled = false;
+      btn.textContent = 'Créer mon compte';
+      
+      if(error){ toast('Erreur: ' + error.message, 'err'); return; }
+      
+      toast('Compte créé ✓ Bienvenue !', 'ok');
+      state.user = {
+        id: data.user?.id,
+        email: email,
+        name: name
+      };
+      location.hash = '#/dashboard';
+    });
+  }
+}
+
+// ============================================================
+// SCROLL REVEAL
+// ============================================================
+function initReveal(){
+  if(typeof IntersectionObserver === 'undefined'){
+    $$('.reveal').forEach(el => el.classList.add('on'));
+    return;
+  }
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if(e.isIntersecting){
+        e.target.classList.add('on');
+        obs.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.1, rootMargin: '0px 0px -60px 0px' });
+  $$('.reveal').forEach(el => obs.observe(el));
+}
+
+// ============================================================
+// PARTICLES
+// ============================================================
+function initParticles(){
+  const c = $('#bgParticles');
+  if(!c) return;
+  for(let i = 0; i < 24; i++){
+    const p = document.createElement('div');
+    p.className = 'particle';
+    p.style.left = Math.random() * 100 + '%';
+    p.style.animationDuration = (10 + Math.random() * 12) + 's';
+    p.style.animationDelay = (Math.random() * 12) + 's';
+    p.style.background = ['rgba(37,99,235,.7)','rgba(139,92,246,.7)','rgba(6,182,212,.7)'][Math.floor(Math.random() * 3)];
+    p.style.width = (2 + Math.random() * 5) + 'px';
+    p.style.height = p.style.width;
+    c.appendChild(p);
+  }
+}
+
+// ============================================================
+// EVENTS
+// ============================================================
+document.addEventListener('click', (e) => {
+  const lb = e.target.closest('[data-lang]');
+  if(lb){
+    state.lang = lb.dataset.lang;
+    localStorage.setItem('kzo_lang', state.lang);
+    render();
+    return;
+  }
+  
+  if(e.target.closest('#themebtn')){
+    state.theme = state.theme === 'dark' ? 'light' : 'dark';
+    document.documentElement.dataset.theme = state.theme;
+    localStorage.setItem('kzo_theme', state.theme);
+    paintChrome();
+    return;
+  }
+  
+  if(e.target.closest('#avatarbtn')){
+    if(confirm('Voulez-vous vous déconnecter ?')){
+      sb.auth.signOut().then(() => {
+        toast('Déconnecté', 'info');
+        state.user = null;
+        location.hash = '#/';
+        render();
+      });
+    }
+    return;
+  }
+});
+
+document.addEventListener('submit', (e) => {
+  if(e.target.id === 'globalsearch'){
+    e.preventDefault();
+    const q = $('#searchinput').value.trim();
+    if(q) location.hash = '#/courses?q=' + encodeURIComponent(q);
+  }
+});
+
+// ============================================================
+// CHATBOT
+// ============================================================
+(function initChatbot(){
+  const panel = $('#kzo-chat-panel');
+  const btn = $('#kzo-chat-btn');
+  const close = $('#kzo-close');
+  const body = $('#kzo-body');
+  const input = $('#kzo-input');
+  const send = $('#kzo-send');
+  
+  btn.addEventListener('click', () => {
+    panel.classList.toggle('on');
+    btn.style.display = panel.classList.contains('on') ? 'none' : 'grid';
+  });
+  
+  close.addEventListener('click', () => {
+    panel.classList.remove('on');
+    btn.style.display = 'grid';
+  });
+  
+  function addMsg(role, content){
+    const div = document.createElement('div');
+    div.className = 'kzo-msg ' + role;
+    div.innerHTML = content;
+    body.appendChild(div);
+    body.scrollTop = body.scrollHeight;
+  }
+  
+  function aiReply(q){
+    const s = q.toLowerCase();
+    if(s.includes('html') || s.includes('css')) return 'HTML est le squelette d\'une page web, CSS s\'occupe du style. Consultez notre cours <b>HTML & CSS</b>.';
+    if(s.includes('python')) return 'Python est excellent pour débuter. Notre cours <b>Python</b> vous apprend tout.';
+    if(s.includes('photo')) return 'Notre formation <b>Photographie & Studio</b> couvre réglages, lumière et retouche.';
+    if(s.includes('prix') || s.includes('tarif')) return 'Nos cours coûtent entre $15 et $35. Certains sont gratuits.';
+    if(s.includes('gratuit')) return 'Nous avons des cours gratuits dont <b>Introduction à l\'IA</b>. Filtrez par « Gratuit ».';
+    return 'Bonne question ! Essayez : « Parle-moi du cours Python », « Quels sont vos tarifs ? »';
+  }
+  
+  function ask(q){
+    if(!q.trim()) return;
+    addMsg('user', q);
+    input.value = '';
+    setTimeout(() => addMsg('ai', aiReply(q)), 600);
+  }
+  
+  send.addEventListener('click', () => ask(input.value));
+  input.addEventListener('keypress', (e) => {
+    if(e.key === 'Enter'){ e.preventDefault(); ask(input.value); }
+  });
+})();
+
+// ============================================================
+// BOOT
+// ============================================================
+(async function boot(){
+  const savedLang = localStorage.getItem('kzo_lang');
+  const savedTheme = localStorage.getItem('kzo_theme');
+  if(savedLang && I18N[savedLang]) state.lang = savedLang;
+  if(savedTheme) state.theme = savedTheme;
+  
+  document.documentElement.dataset.theme = state.theme;
+  
+  // Chaje kou yo soti nan Supabase
+  state.courses = await loadCoursesFromDB();
+  
+  // Verifye sesyon
+  try {
+    const { data: { session } } = await sb.auth.getSession();
+    if(session){
+      state.user = {
+        id: session.user.id,
+        email: session.user.email,
+        name: session.user.user_metadata?.full_name || session.user.email
+      };
+    }
+  } catch(e){ console.error('Auth check:', e); }
+  
+  // Koute chanjman
+  sb.auth.onAuthStateChange((event, session) => {
+    if(event === 'SIGNED_IN' && session){
+      state.user = {
+        id: session.user.id,
+        email: session.user.email,
+        name: session.user.user_metadata?.full_name || session.user.email
+      };
+      render();
+    }
+    if(event === 'SIGNED_OUT'){
+      state.user = null;
+      render();
+    }
+  });
+  
+  initParticles();
+  
+  // Kache loading screen
+  setTimeout(() => {
+    const ls = $('#loadingScreen');
+    if(ls) ls.style.display = 'none';
+  }, 500);
+  
+  render();
+})();
+
+window.addEventListener('hashchange', render);
+</script>
+</body>
+</html>
