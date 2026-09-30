@@ -39,7 +39,6 @@ img,svg{max-width:100%;display:block}
 ::-webkit-scrollbar-thumb{background:linear-gradient(180deg,#2563EB,#8B5CF6);border-radius:10px;border:2px solid var(--bg)}
 ::selection{background:var(--blue-500);color:#fff}
 
-/* BG FX */
 .bg-fx{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
 .bg-orb{position:absolute;border-radius:50%;filter:blur(90px);opacity:.55;will-change:transform;animation:orbFloat 24s ease-in-out infinite}
 .bg-orb-1{width:600px;height:600px;background:radial-gradient(circle,#2563EB,transparent 70%);top:-200px;left:-150px}
@@ -54,7 +53,6 @@ img,svg{max-width:100%;display:block}
 .particle{position:absolute;width:4px;height:4px;border-radius:50%;background:rgba(96,165,250,.7);box-shadow:0 0 8px rgba(96,165,250,.8);animation:particleFloat linear infinite}
 @keyframes particleFloat{0%{transform:translateY(100vh) scale(0);opacity:0}10%{opacity:1}90%{opacity:1}100%{transform:translateY(-100px) scale(1);opacity:0}}
 
-/* ANIMATIONS */
 @keyframes fadeUp{from{opacity:0;transform:translateY(32px)}to{opacity:1;transform:none}}
 @keyframes fadeIn{from{opacity:0}to{opacity:1}}
 @keyframes scaleIn{from{opacity:0;transform:scale(.9)}to{opacity:1;transform:scale(1)}}
@@ -71,7 +69,6 @@ img,svg{max-width:100%;display:block}
 .reveal.on{opacity:1;transform:none}
 .reveal-d1{transition-delay:.1s}.reveal-d2{transition-delay:.2s}.reveal-d3{transition-delay:.3s}
 
-/* LAYOUT */
 .container{max-width:1320px;margin:0 auto;padding:0 24px;position:relative;z-index:1}
 main{min-height:70vh;position:relative;z-index:1}
 section{padding:88px 0;position:relative;z-index:1}
@@ -81,7 +78,6 @@ section{padding:88px 0;position:relative;z-index:1}
 .sec-head h2 .grad{background:var(--grad-hero);-webkit-background-clip:text;background-clip:text;color:transparent;background-size:200% auto;animation:shimmer 5s linear infinite}
 .sec-head p{color:var(--text-muted);font-size:17px;max-width:60ch;margin:0 auto}
 
-/* LOGO */
 .kzo-logo{display:flex;align-items:center;gap:14px;font-weight:900;letter-spacing:-1px;transition:transform .35s}
 .kzo-logo:hover{transform:translateY(-2px)}
 .kzo-logo-mark{width:48px;height:48px;border-radius:14px;background:linear-gradient(135deg,#2563EB,#06B6D4,#8B5CF6);display:grid;place-items:center;position:relative;box-shadow:0 0 0 2px rgba(96,165,250,.25),0 12px 32px -8px rgba(37,99,235,.6),inset 0 2px 8px rgba(255,255,255,.3);overflow:hidden;transition:transform .4s}
@@ -92,7 +88,6 @@ section{padding:88px 0;position:relative;z-index:1}
 [data-theme="light"] .kzo-logo-text b{background:linear-gradient(180deg,#0A1428 0%,#2563EB 100%);-webkit-background-clip:text;background-clip:text;color:transparent}
 .kzo-logo-text small{font-size:10px;font-weight:700;letter-spacing:3px;color:var(--cyan-400);text-transform:uppercase;margin-top:2px}
 
-/* TOPBAR */
 #topbar{position:sticky;top:0;z-index:200;height:var(--topbar);background:color-mix(in srgb,var(--bg) 75%,transparent);backdrop-filter:blur(24px) saturate(180%);-webkit-backdrop-filter:blur(24px) saturate(180%);border-bottom:1px solid var(--border)}
 .tb-in{max-width:1320px;margin:0 auto;padding:0 24px;height:100%;display:flex;align-items:center;gap:18px}
 .navlinks{display:flex;gap:4px;margin-left:16px}
@@ -116,7 +111,6 @@ section{padding:88px 0;position:relative;z-index:1}
 .lang-switch button.on{background:var(--grad-primary);color:#fff}
 .hamburger{display:none}
 
-/* BUTTONS */
 .btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;padding:14px 26px;border-radius:14px;font-weight:700;font-size:15px;transition:.3s cubic-bezier(.4,0,.2,1);white-space:nowrap;border:1.5px solid transparent;cursor:pointer;position:relative;overflow:hidden;letter-spacing:-.2px}
 .btn::before{content:'';position:absolute;inset:0;background:linear-gradient(120deg,transparent,rgba(255,255,255,.3),transparent);transform:translateX(-100%);transition:transform .8s}
 .btn:hover::before{transform:translateX(100%)}
@@ -131,7 +125,6 @@ section{padding:88px 0;position:relative;z-index:1}
 .btn-lg{padding:18px 36px;font-size:16.5px;border-radius:16px}
 .btn-block{width:100%}
 
-/* CARDS */
 .course-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:24px}
 .course-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);overflow:hidden;display:flex;flex-direction:column;transition:.4s cubic-bezier(.4,0,.2,1);cursor:pointer;position:relative;backdrop-filter:blur(20px)}
 .course-card:hover{transform:translateY(-10px);border-color:var(--border-2);box-shadow:var(--shadow-lg),0 0 60px -12px rgba(37,99,235,.5)}
@@ -155,7 +148,6 @@ section{padding:88px 0;position:relative;z-index:1}
 .course-price{font-size:22px;font-weight:900;letter-spacing:-1px}
 .course-price s{font-size:13px;color:var(--text-dim);margin-left:6px;font-weight:600}
 
-/* CATEGORIES */
 .cat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px}
 .cat-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);padding:28px;backdrop-filter:blur(20px);transition:.4s;position:relative;overflow:hidden;cursor:pointer;display:flex;flex-direction:column}
 .cat-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--grad-primary);transform:scaleX(0);transform-origin:left;transition:transform .5s}
@@ -168,7 +160,6 @@ section{padding:88px 0;position:relative;z-index:1}
 .cat-arrow{display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:800;color:var(--cyan-400);transition:gap .3s}
 .cat-card:hover .cat-arrow{gap:10px}
 
-/* FEATURES */
 .features-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:24px}
 .feature-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);padding:32px 26px;text-align:center;transition:.4s;backdrop-filter:blur(20px)}
 .feature-card:hover{transform:translateY(-6px);border-color:var(--border-2);box-shadow:var(--shadow)}
@@ -176,7 +167,6 @@ section{padding:88px 0;position:relative;z-index:1}
 .feature-card h3{font-size:17px;font-weight:800;margin-bottom:10px}
 .feature-card p{font-size:14px;color:var(--text-muted);line-height:1.65}
 
-/* TESTI */
 .testi-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:24px}
 .testi-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);padding:28px;transition:.4s;backdrop-filter:blur(20px);position:relative}
 .testi-card:hover{transform:translateY(-5px);border-color:var(--border-2);box-shadow:var(--shadow)}
@@ -187,7 +177,6 @@ section{padding:88px 0;position:relative;z-index:1}
 .testi-user-info b{display:block;font-size:14px;font-weight:800}
 .testi-user-info span{font-size:12px;color:var(--text-muted)}
 
-/* HERO */
 .hero{padding:72px 0 88px;position:relative;overflow:hidden}
 .hero-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:60px;align-items:center}
 .hero-badge{display:inline-flex;align-items:center;gap:10px;padding:10px 20px;border-radius:99px;background:linear-gradient(135deg,rgba(37,99,235,.15),rgba(139,92,246,.15));border:1px solid rgba(96,165,250,.3);font-size:12.5px;font-weight:800;color:var(--cyan-400);letter-spacing:1.8px;text-transform:uppercase;margin-bottom:28px}
@@ -203,13 +192,11 @@ section{padding:88px 0;position:relative;z-index:1}
 .hstat span{font-size:11.5px;color:var(--text-muted);font-weight:700;text-transform:uppercase;letter-spacing:.8px}
 .hero-visual{position:relative;height:520px;animation:float 7s ease-in-out infinite}
 
-/* CTA */
 .cta-section{background:linear-gradient(135deg,rgba(37,99,235,.12),rgba(139,92,246,.12));border:1px solid var(--border-2);border-radius:var(--r-xl);padding:64px 40px;text-align:center;position:relative;overflow:hidden;backdrop-filter:blur(20px)}
 .cta-section h2{font-size:clamp(26px,4vw,44px);font-weight:900;letter-spacing:-1.5px;margin-bottom:16px}
 .cta-section p{color:var(--text-muted);font-size:17px;margin-bottom:32px;max-width:52ch;margin-left:auto;margin-right:auto}
 .cta-buttons{display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
 
-/* FOOTER */
 .footer{border-top:1px solid var(--border);margin-top:80px;padding:60px 0 32px;background:var(--bg-2)}
 .footer-grid{display:grid;grid-template-columns:2fr repeat(3,1fr);gap:48px}
 .footer h4{font-size:12.5px;font-weight:800;text-transform:uppercase;letter-spacing:1.5px;color:var(--text-muted);margin-bottom:20px}
@@ -217,7 +204,6 @@ section{padding:88px 0;position:relative;z-index:1}
 .footer a:hover{color:var(--cyan-400);transform:translateX(5px)}
 .footer p{color:var(--text-muted);font-size:14px;max-width:34ch;line-height:1.7;margin-top:16px}
 
-/* CHATBOT */
 #kzo-chat-btn{position:fixed;bottom:24px;right:24px;z-index:9998;width:64px;height:64px;border-radius:50%;background:var(--grad-primary);border:none;cursor:pointer;color:#fff;font-size:26px;display:grid;place-items:center;box-shadow:0 16px 40px -8px var(--blue-500);transition:.3s;animation:glowPulse 3s infinite}
 #kzo-chat-btn:hover{transform:scale(1.1) rotate(-8deg)}
 #kzo-chat-panel{position:fixed;bottom:100px;right:24px;z-index:9999;width:400px;max-width:calc(100vw - 32px);height:600px;max-height:calc(100vh - 130px);background:var(--bg-2);border:1px solid var(--border-2);border-radius:22px;display:none;flex-direction:column;overflow:hidden;box-shadow:0 32px 80px -20px rgba(0,0,0,.9)}
@@ -235,11 +221,9 @@ section{padding:88px 0;position:relative;z-index:1}
 .kzo-foot input{flex:1;padding:12px 16px;border-radius:12px;background:var(--surface);border:1px solid var(--border);color:var(--text);outline:none;font-size:14px}
 .kzo-foot button{padding:0 20px;border-radius:12px;background:var(--grad-primary);border:none;color:#fff;font-weight:700;cursor:pointer;font-size:15px;min-width:52px}
 
-/* LOADING */
 .loading-screen{position:fixed;inset:0;z-index:99999;background:var(--bg);display:grid;place-items:center}
 .loading-screen .spin{width:56px;height:56px;border:4px solid rgba(96,165,250,.15);border-top-color:var(--blue-500);border-radius:50%;animation:spinSlow 1s linear infinite}
 
-/* RESPONSIVE */
 @media(max-width:1024px){.navlinks{display:none}.searchbox{width:200px}.hero-grid{grid-template-columns:1fr;gap:40px}.hero-visual{height:400px;order:-1}}
 @media(max-width:768px){.hamburger{display:grid}.searchbox{display:none}.lang-switch{display:none}section{padding:60px 0}.hero{padding:40px 0 60px}.footer-grid{grid-template-columns:1fr 1fr;gap:32px}.hero-stats{grid-template-columns:repeat(2,1fr);gap:20px}.hstat:nth-child(2)::after{display:none}#kzo-chat-panel{width:100%;right:0;left:0;bottom:0;top:0;border-radius:0;max-height:100vh}}
 @media(max-width:480px){.container{padding:0 16px}section{padding:48px 0}.course-grid,.cat-grid,.features-grid,.testi-grid{grid-template-columns:1fr}.footer-grid{grid-template-columns:1fr}.hero h1{letter-spacing:-1.5px}.hero-cta .btn{width:100%;justify-content:center}}
@@ -417,6 +401,7 @@ const I18N = {
   }
 };
 const t = (key) => (I18N[state.lang] && I18N[state.lang][key]) || I18N.fr[key] || key;
+
 // ============================================================
 // METÒD PEMAN YO AK ENFÒMASYON
 // ============================================================
@@ -484,7 +469,6 @@ async function submitPayment(courseId, methodId, txnId, screenshotFile, comment)
       return { success: false };
     }
     
-    // Upload screenshot si genyen
     let screenshotUrl = null;
     if(screenshotFile){
       const fileName = session.user.id + '/' + Date.now() + '-' + screenshotFile.name;
@@ -500,10 +484,8 @@ async function submitPayment(courseId, methodId, txnId, screenshotFile, comment)
       }
     }
     
-    // Chèche kou a
     const course = state.courses.find(x => x.id === courseId);
     
-    // Enregistre peman an
     const { data, error } = await sb.from('payments').insert({
       user_id: session.user.id,
       course_id: courseId,
@@ -633,6 +615,7 @@ function viewPayment(courseId){
     </style>
   `;
 }
+
 // ============================================================
 // CATEGORIES
 // ============================================================
@@ -678,7 +661,6 @@ async function loadCoursesFromDB(){
     
     console.log('✅ Kou chaje:', data.length);
     
-    // Fòma done yo
     return (data || []).map(c => {
       const cat = CATEGORIES.find(x => x.id === c.category_id) || CATEGORIES[0];
       return {
@@ -687,11 +669,7 @@ async function loadCoursesFromDB(){
         cat: c.category_id || 'info',
         icon: c.icon || cat.icon,
         grad: cat.grad,
-        title: {
-          fr: c.title,
-          ht: c.title,
-          en: c.title
-        },
+        title: { fr: c.title, ht: c.title, en: c.title },
         level: c.level || 'beginner',
         hours: c.hours || 10,
         rating: Number(c.rating) || 4.8,
@@ -725,8 +703,8 @@ function render(){
   switch(root){
     case '': html = viewHome(); break;
     case 'courses': html = viewCourses(q); break;
-        case 'course': html = viewCourseDetail(parts[1]); break;
-            case 'payment': html = viewPayment(parts[1]); break;
+    case 'course': html = viewCourseDetail(parts[1]); break;
+    case 'payment': html = viewPayment(parts[1]); break;
     case 'about': html = viewAbout(); break;
     case 'blog': html = viewBlog(); break;
     case 'contact': html = viewContact(); break;
@@ -945,15 +923,13 @@ function viewCourses(q){
     </section>
   `;
 }
-// ============================================================
-// PAJ DETAY KOU
-// ============================================================
+
 function viewCourseDetail(slug){
   const c = state.courses.find(x => x.slug === slug);
   if(!c) return viewNotFound();
   
   const cat = CATEGORIES.find(x => x.id === c.cat) || CATEGORIES[0];
-  const enrolled = state.favorites.includes(c.id);  // pou kounye a, itilize favorites
+  const enrolled = state.favorites.includes(c.id);
   const title = c.title[state.lang] || c.title.fr;
   
   return `
@@ -966,7 +942,6 @@ function viewCourseDetail(slug){
         </div>
         
         <div style="display:grid;grid-template-columns:1fr 320px;gap:32px;align-items:start" class="course-detail-grid">
-          <!-- KOLÒN GÒCH -->
           <div>
             <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px">
               <span class="pill blue">${cat.icon} ${cat.name[state.lang]}</span>
@@ -988,7 +963,6 @@ function viewCourseDetail(slug){
               <span>👥 <b style="color:var(--text)">${c.students.toLocaleString()}</b> étudiants</span>
             </div>
             
-            <!-- SA W AP APRANN -->
             <div class="card" style="margin-bottom:24px">
               <h2 style="font-size:20px;font-weight:800;margin-bottom:16px">📚 Ce que vous allez apprendre</h2>
               <ul style="list-style:none;display:grid;gap:10px">
@@ -1002,7 +976,6 @@ function viewCourseDetail(slug){
               </ul>
             </div>
             
-            <!-- ENFÒMASYON SOU KOU -->
             <div class="card">
               <h2 style="font-size:20px;font-weight:800;margin-bottom:16px">ℹ️ Informations sur le cours</h2>
               <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;font-size:14px">
@@ -1014,7 +987,6 @@ function viewCourseDetail(slug){
             </div>
           </div>
           
-          <!-- SIDEBAR DWA -->
           <aside style="position:sticky;top:100px">
             <div class="card" style="padding:0;overflow:hidden">
               <div style="height:180px;background:${c.grad};display:grid;place-items:center;font-size:72px;position:relative">
@@ -1048,8 +1020,8 @@ function viewCourseDetail(slug){
     <style>@media(max-width:900px){.course-detail-grid{grid-template-columns:1fr!important}}</style>
   `;
 }
-function viewAbout(){
 
+function viewAbout(){
   return '<section style="padding-top:80px"><div class="container" style="max-width:900px"><div class="sec-head reveal"><div class="eyebrow">ℹ️ ' + t('about_title') + '</div><h2>' + t('about_title') + '</h2><p>' + t('about_lead') + '</p></div><div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--r-xl);padding:48px;margin-bottom:40px" class="reveal"><p style="font-size:16px;color:var(--text-soft);line-height:1.9;margin-bottom:24px">KZO Academy est née d\'une conviction simple : tout le monde mérite une formation de qualité, accessible et pratique. Nous proposons des cours modernes en informatique, programmation, photographie, montage vidéo et e-commerce.</p><p style="font-size:16px;color:var(--text-soft);line-height:1.9;margin-bottom:24px">Nos formations sont disponibles en trois langues — français, créole haïtien et anglais — pour que chacun puisse apprendre dans la langue qui lui convient.</p><p style="font-size:16px;color:var(--text-soft);line-height:1.9">Notre mission : permettre à chaque apprenant de développer des compétences concrètes et de construire un avenir meilleur.</p></div></div></section>';
 }
 
@@ -1137,15 +1109,14 @@ function heroSVG(){
 // BIND
 // ============================================================
 function bindView(){
-  // Category filters
   $$('[data-cat]').forEach(el => el.addEventListener('click', () => {
     const cat = el.dataset.cat;
     location.hash = '#/courses' + (cat !== 'all' ? '?cat=' + cat : '');
   }));
   
-  // Auth forms
   bindAuthForms();
 }
+
 // ============================================================
 // ENSKRIPSYON NAN KOU
 // ============================================================
@@ -1159,7 +1130,6 @@ document.addEventListener('click', async function(e){
   const coursePrice = parseFloat(enrollBtn.dataset.coursePrice);
   const courseSlug = enrollBtn.dataset.courseSlug;
   
-  // Verifye koneksyon
   const { data: { session } } = await sb.auth.getSession();
   if(!session){
     toast('Connectez-vous d\'abord', 'err');
@@ -1167,7 +1137,6 @@ document.addEventListener('click', async function(e){
     return;
   }
   
-  // Kou GRATIS → enskri dirèkteman
   if(coursePrice === 0){
     enrollBtn.disabled = true;
     enrollBtn.textContent = 'Inscription…';
@@ -1194,68 +1163,9 @@ document.addEventListener('click', async function(e){
     return;
   }
   
-  // Kou PEYE → ale nan paj peman
   location.hash = '#/payment/' + courseId;
 });
-  if(!enrollBtn) return;
-  
-  e.preventDefault();
-  
-  const courseId = enrollBtn.dataset.courseId;
-  const coursePrice = parseFloat(enrollBtn.dataset.coursePrice);
-  const courseSlug = enrollBtn.dataset.courseSlug;
-  
-  // Verifye si itilizatè konekte
-  const { data: { session } } = await sb.auth.getSession();
-  if(!session){
-    toast('Connectez-vous d\'abord pour vous inscrire', 'err');
-    location.hash = '#/login';
-    return;
-  }
-  
-  // Si kou a peye, ale nan paj peman (pou kounye a, jis enskri)
-  if(coursePrice > 0){
-    // Pou kounye a, enskri dirèkteman (peman ap ajoute pita)
-    toast('Paiement à venir. Inscription en cours...', 'info');
-  }
-  
-  // Enskri nan Supabase
-  enrollBtn.disabled = true;
-  enrollBtn.textContent = 'Inscription…';
-  
-  try {
-    const { data, error } = await sb.from('enrollments').insert({
-      user_id: session.user.id,
-      course_id: courseId
-    });
-    
-    if(error){
-      // Si deja enskri, se pa yon erè
-      if(error.code === '23505'){
-        toast('Vous êtes déjà inscrit à ce cours', 'info');
-      } else {
-        toast('Erreur: ' + error.message, 'err');
-        enrollBtn.disabled = false;
-        enrollBtn.textContent = 'S\'inscrire';
-        return;
-      }
-    } else {
-      toast('✓ Inscription réussie !', 'ok');
-      // Ajoute nan favorites pou montre li nan sidebar
-      if(!state.favorites.includes(courseId)){
-        state.favorites.push(courseId);
-      }
-    }
-    
-    // Rechaje paj detay la
-    render();
-    
-  } catch(err){
-    console.error('Erè enskripsyon:', err);
-    toast('Erreur: ' + err.message, 'err');
-    enrollBtn.disabled = false;
-    enrollBtn.textContent = 'S\'inscrire';
-  }
+
 // ============================================================
 // EVENT LISTENERS PEMAN
 // ============================================================
@@ -1265,18 +1175,14 @@ document.addEventListener('click', function(e){
   
   const methodId = method.dataset.method;
   
-  // Retire seleksyon anndan tout
   $$('.payment-method').forEach(m => m.classList.remove('selected'));
   method.classList.add('selected');
   
-  // Chèche metòd la
   const m = PAYMENT_METHODS.find(x => x.id === methodId);
   if(!m) return;
   
-  // Mete ajou fòm nan
   $('#pay_method').value = methodId;
   
-  // Montre enstriksyon yo
   const instructions = $('#payment-instructions');
   const details = $('#method-details');
   
@@ -1317,7 +1223,6 @@ document.addEventListener('submit', async function(e){
   if(!txnId){ toast('Entrez le numéro de transaction', 'err'); return; }
   if(!screenshotInput.files[0]){ toast('Ajoutez une capture d\'écran', 'err'); return; }
   
-  // Verifye gwosè fichye a (max 8 MB)
   const file = screenshotInput.files[0];
   if(file.size > 8 * 1024 * 1024){
     toast('Fichier trop volumineux (max 8 MB)', 'err');
@@ -1330,7 +1235,6 @@ document.addEventListener('submit', async function(e){
   const result = await submitPayment(courseId, methodId, txnId, file, comment);
   
   if(result.success){
-    // Montre mesaj siksè
     $('#payment-methods').style.display = 'none';
     $('#payment-instructions').style.display = 'none';
     const successDiv = $('#payment-success');
@@ -1344,33 +1248,35 @@ document.addEventListener('submit', async function(e){
     toast('Erreur: ' + (result.error || 'Réessayez'), 'err');
   }
 });
+
+// ============================================================
+// AUTH FORMS
+// ============================================================
 function bindAuthForms(){
- // ===== GOOGLE LOGIN (Event Delegation) =====
-document.addEventListener('click', async function(e){
-  var btn = e.target.closest('#googleLoginBtn');
-  if(!btn) return;
-  
-  e.preventDefault();
-  console.log('🔵 Klike sou Google...');
-  
-  try {
-    var result = await sb.auth.signInWithOAuth({
-      provider: 'google',
-      options: {
-        redirectTo: window.location.origin + '/index.html'
+  // Google Login (Event Delegation)
+  document.addEventListener('click', async function(e){
+    var btn = e.target.closest('#googleLoginBtn');
+    if(!btn) return;
+    
+    e.preventDefault();
+    console.log('🔵 Klike sou Google...');
+    
+    try {
+      var result = await sb.auth.signInWithOAuth({
+        provider: 'google',
+        options: {
+          redirectTo: window.location.origin + '/index.html'
+        }
+      });
+      console.log('Rezilta:', result);
+      if(result && result.error){
+        toast('Erreur Google: ' + result.error.message, 'err');
       }
-    });
-    console.log('Rezilta:', result);
-    if(result && result.error){
-      toast('Erreur Google: ' + result.error.message, 'err');
+    } catch(err){
+      console.log('Erè:', err);
+      toast('Erreur: ' + err.message, 'err');
     }
-  } catch(err){
-    console.log('Erè:', err);
-    toast('Erreur: ' + err.message, 'err');
-  }
-});
-    console.log('❌ Bouton Google PA JWENN');
-  }
+  });
 
   const loginForm = $('#loginForm');
   if(loginForm){
@@ -1439,6 +1345,7 @@ document.addEventListener('click', async function(e){
       location.hash = '#/dashboard';
     });
   }
+}
 
 // ============================================================
 // SCROLL REVEAL
@@ -1530,6 +1437,8 @@ document.addEventListener('submit', (e) => {
   const input = $('#kzo-input');
   const send = $('#kzo-send');
   
+  if(!btn || !panel) return;
+  
   btn.addEventListener('click', () => {
     panel.classList.toggle('on');
     btn.style.display = panel.classList.contains('on') ? 'none' : 'grid';
@@ -1582,10 +1491,8 @@ document.addEventListener('submit', (e) => {
   
   document.documentElement.dataset.theme = state.theme;
   
-  // Chaje kou yo soti nan Supabase
   state.courses = await loadCoursesFromDB();
   
-  // Verifye sesyon
   try {
     const { data: { session } } = await sb.auth.getSession();
     if(session){
@@ -1597,7 +1504,6 @@ document.addEventListener('submit', (e) => {
     }
   } catch(e){ console.error('Auth check:', e); }
   
-  // Koute chanjman
   sb.auth.onAuthStateChange((event, session) => {
     if(event === 'SIGNED_IN' && session){
       state.user = {
@@ -1615,7 +1521,6 @@ document.addEventListener('submit', (e) => {
   
   initParticles();
   
-  // Kache loading screen
   setTimeout(() => {
     const ls = $('#loadingScreen');
     if(ls) ls.style.display = 'none';
@@ -1627,4 +1532,4 @@ document.addEventListener('submit', (e) => {
 window.addEventListener('hashchange', render);
 </script>
 </body>
-</html> 
+</html>
