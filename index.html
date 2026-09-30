@@ -828,30 +828,30 @@ function bindView(){
 }
 
 function bindAuthForms(){
-    // ===== GOOGLE LOGIN =====
-  var googleLoginBtn = document.getElementById('googleLoginBtn');
-  if(googleLoginBtn){
-    console.log('✅ Bouton Google jwenn, atache listener');
-    googleLoginBtn.addEventListener('click', async function(e){
-      e.preventDefault();
-      console.log('🔵 Klike sou Google...');
-      try {
-        var result = await sb.auth.signInWithOAuth({
-          provider: 'google',
-          options: {
-            redirectTo: window.location.origin + '/index.html'
-          }
-        });
-        console.log('Rezilta:', result);
-        if(result.error){
-          toast('Erreur Google: ' + result.error.message, 'err');
-        }
-      } catch(err){
-        console.log('Erè:', err);
-        toast('Erreur: ' + err.message, 'err');
+ // ===== GOOGLE LOGIN (Event Delegation) =====
+document.addEventListener('click', async function(e){
+  var btn = e.target.closest('#googleLoginBtn');
+  if(!btn) return;
+  
+  e.preventDefault();
+  console.log('🔵 Klike sou Google...');
+  
+  try {
+    var result = await sb.auth.signInWithOAuth({
+      provider: 'google',
+      options: {
+        redirectTo: window.location.origin + '/index.html'
       }
     });
-  } else {
+    console.log('Rezilta:', result);
+    if(result && result.error){
+      toast('Erreur Google: ' + result.error.message, 'err');
+    }
+  } catch(err){
+    console.log('Erè:', err);
+    toast('Erreur: ' + err.message, 'err');
+  }
+});
     console.log('❌ Bouton Google PA JWENN');
   }
 
@@ -922,7 +922,6 @@ function bindAuthForms(){
       location.hash = '#/dashboard';
     });
   }
-}
 
 // ============================================================
 // SCROLL REVEAL
@@ -1111,4 +1110,4 @@ document.addEventListener('submit', (e) => {
 window.addEventListener('hashchange', render);
 </script>
 </body>
-</html> 
+</html>
