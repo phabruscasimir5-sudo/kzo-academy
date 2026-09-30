@@ -828,6 +828,33 @@ function bindView(){
 }
 
 function bindAuthForms(){
+    // ===== GOOGLE LOGIN =====
+  var googleLoginBtn = document.getElementById('googleLoginBtn');
+  if(googleLoginBtn){
+    console.log('✅ Bouton Google jwenn, atache listener');
+    googleLoginBtn.addEventListener('click', async function(e){
+      e.preventDefault();
+      console.log('🔵 Klike sou Google...');
+      try {
+        var result = await sb.auth.signInWithOAuth({
+          provider: 'google',
+          options: {
+            redirectTo: window.location.origin + '/index.html'
+          }
+        });
+        console.log('Rezilta:', result);
+        if(result.error){
+          toast('Erreur Google: ' + result.error.message, 'err');
+        }
+      } catch(err){
+        console.log('Erè:', err);
+        toast('Erreur: ' + err.message, 'err');
+      }
+    });
+  } else {
+    console.log('❌ Bouton Google PA JWENN');
+  }
+
   const loginForm = $('#loginForm');
   if(loginForm){
     loginForm.addEventListener('submit', async (e) => {
