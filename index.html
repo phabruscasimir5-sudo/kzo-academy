@@ -510,6 +510,7 @@ function render(){
   switch(root){
     case '': html = viewHome(); break;
     case 'courses': html = viewCourses(q); break;
+        case 'course': html = viewCourseDetail(parts[1]); break;
     case 'about': html = viewAbout(); break;
     case 'blog': html = viewBlog(); break;
     case 'contact': html = viewContact(); break;
@@ -563,7 +564,7 @@ function courseCard(c, delay){
   const title = c.title[state.lang] || c.title.fr;
   const cat = CATEGORIES.find(x => x.id === c.cat) || CATEGORIES[0];
   
-  return '<a href="#/courses" class="course-card anim" style="animation-delay:' + delay + 's">' +
+  return '<a href="#/course/' + c.slug + '" class="course-card anim" style="animation-delay:' + delay + 's">' +
     '<div class="course-cover">' +
       '<div class="course-cover-bg" style="background:' + c.grad + '"></div>' +
       '<span class="course-icon-lg">' + c.icon + '</span>' +
@@ -728,8 +729,111 @@ function viewCourses(q){
     </section>
   `;
 }
-
+// ============================================================
+// PAJ DETAY KOU
+// ============================================================
+function viewCourseDetail(slug){
+  const c = state.courses.find(x => x.slug === slug);
+  if(!c) return viewNotFound();
+  
+  const cat = CATEGORIES.find(x => x.id === c.cat) || CATEGORIES[0];
+  const enrolled = state.favorites.includes(c.id);  // pou kounye a, itilize favorites
+  const title = c.title[state.lang] || c.title.fr;
+  
+  return `
+    <section style="padding-top:60px">
+      <div class="container" style="max-width:1000px">
+        <div class="breadcrumb" style="margin-bottom:24px;font-size:13px;color:var(--text-muted)">
+          <a href="#/" style="color:var(--cyan-400)">Accueil</a> › 
+          <a href="#/courses" style="color:var(--cyan-400)">Cours</a> › 
+          <span>${esc(title)}</span>
+        </div>
+        
+        <div style="display:grid;grid-template-columns:1fr 320px;gap:32px;align-items:start" class="course-detail-grid">
+          <!-- KOLÒN GÒCH -->
+          <div>
+            <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px">
+              <span class="pill blue">${cat.icon} ${cat.name[state.lang]}</span>
+              <span class="pill">${t('difficulty_' + c.level)}</span>
+              ${c.price === 0 ? '<span class="pill green">' + t('free') + '</span>' : ''}
+            </div>
+            
+            <h1 style="font-size:clamp(26px,4vw,42px);font-weight:900;letter-spacing:-1.5px;line-height:1.15;margin-bottom:16px">
+              ${esc(title)}
+            </h1>
+            
+            <p style="color:var(--text-soft);font-size:16px;line-height:1.7;margin-bottom:24px">
+              ${esc(c.desc || 'Formation complète et pratique pour maîtriser les compétences essentielles.')}
+            </p>
+            
+            <div style="display:flex;gap:24px;flex-wrap:wrap;font-size:14px;color:var(--text-muted);margin-bottom:32px">
+              <span>⭐ <b style="color:var(--text)">${c.rating}</b> note</span>
+              <span>⏱ <b style="color:var(--text)">${c.hours}h</b> de contenu</span>
+              <span>👥 <b style="color:var(--text)">${c.students.toLocaleString()}</b> étudiants</span>
+            </div>
+            
+            <!-- SA W AP APRANN -->
+            <div class="card" style="margin-bottom:24px">
+              <h2 style="font-size:20px;font-weight:800;margin-bottom:16px">📚 Ce que vous allez apprendre</h2>
+              <ul style="list-style:none;display:grid;gap:10px">
+                ${[
+                  'Maîtriser les fondamentaux du sujet',
+                  'Réaliser des projets pratiques',
+                  'Comprendre les concepts avancés',
+                  'Préparer votre certification',
+                  'Appliquer les connaissances en situation réelle'
+                ].map(item => '<li style="display:flex;gap:10px;font-size:14.5px;color:var(--text-soft)"><span style="color:#10B981">✓</span> ' + item + '</li>').join('')}
+              </ul>
+            </div>
+            
+            <!-- ENFÒMASYON SOU KOU -->
+            <div class="card">
+              <h2 style="font-size:20px;font-weight:800;margin-bottom:16px">ℹ️ Informations sur le cours</h2>
+              <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;font-size:14px">
+                <div><span style="color:var(--text-muted)">Catégorie:</span> <b>${cat.name[state.lang]}</b></div>
+                <div><span style="color:var(--text-muted)">Niveau:</span> <b>${t('difficulty_' + c.level)}</b></div>
+                <div><span style="color:var(--text-muted)">Durée:</span> <b>${c.hours} heures</b></div>
+                <div><span style="color:var(--text-muted)">Langues:</span> <b>FR · KR · EN</b></div>
+              </div>
+            </div>
+          </div>
+          
+          <!-- SIDEBAR DWA -->
+          <aside style="position:sticky;top:100px">
+            <div class="card" style="padding:0;overflow:hidden">
+              <div style="height:180px;background:${c.grad};display:grid;place-items:center;font-size:72px;position:relative">
+                ${c.icon}
+              </div>
+              <div style="padding:24px">
+                <div style="font-size:32px;font-weight:900;letter-spacing:-1.5px;margin-bottom:16px">
+                  ${c.price === 0 ? t('free') : '$' + c.price}
+                  ${c.oldPrice ? '<s style="font-size:15px;color:var(--text-dim);margin-left:8px">$' + c.oldPrice + '</s>' : ''}
+                </div>
+                
+                ${enrolled ? 
+                  '<div style="background:rgba(16,185,129,.15);border:1px solid rgba(16,185,129,.3);border-radius:12px;padding:16px;text-align:center;margin-bottom:16px"><div style="font-size:24px;margin-bottom:8px">✓</div><div style="font-weight:800;color:#10B981;font-size:14px">Vous êtes inscrit</div></div>' +
+                  '<a href="#/courses" class="btn btn-primary btn-block btn-lg" style="width:100%">Accéder au cours</a>'
+                  :
+                  '<button id="enrollBtn" data-course-id="' + c.id + '" data-course-price="' + c.price + '" data-course-slug="' + c.slug + '" class="btn btn-primary btn-block btn-lg" style="width:100%">' + (c.price === 0 ? 'Commencer gratuitement' : 'S\'inscrire — $' + c.price) + '</button>'
+                }
+                
+                <div style="margin-top:20px;padding-top:18px;border-top:1px solid var(--border);display:flex;flex-direction:column;gap:12px;font-size:13.5px;color:var(--text-muted)">
+                  <div style="display:flex;gap:10px;align-items:center"><span>📹</span> Accès à vie aux vidéos</div>
+                  <div style="display:flex;gap:10px;align-items:center"><span>📱</span> Disponible sur mobile</div>
+                  <div style="display:flex;gap:10px;align-items:center"><span>🏆</span> Certificat à la fin</div>
+                  <div style="display:flex;gap:10px;align-items:center"><span>💬</span> Support par chatbot IA</div>
+                </div>
+              </div>
+            </div>
+          </aside>
+        </div>
+      </div>
+    </section>
+    <style>@media(max-width:900px){.course-detail-grid{grid-template-columns:1fr!important}}</style>
+  `;
+}
 function viewAbout(){
+
   return '<section style="padding-top:80px"><div class="container" style="max-width:900px"><div class="sec-head reveal"><div class="eyebrow">ℹ️ ' + t('about_title') + '</div><h2>' + t('about_title') + '</h2><p>' + t('about_lead') + '</p></div><div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--r-xl);padding:48px;margin-bottom:40px" class="reveal"><p style="font-size:16px;color:var(--text-soft);line-height:1.9;margin-bottom:24px">KZO Academy est née d\'une conviction simple : tout le monde mérite une formation de qualité, accessible et pratique. Nous proposons des cours modernes en informatique, programmation, photographie, montage vidéo et e-commerce.</p><p style="font-size:16px;color:var(--text-soft);line-height:1.9;margin-bottom:24px">Nos formations sont disponibles en trois langues — français, créole haïtien et anglais — pour que chacun puisse apprendre dans la langue qui lui convient.</p><p style="font-size:16px;color:var(--text-soft);line-height:1.9">Notre mission : permettre à chaque apprenant de développer des compétences concrètes et de construire un avenir meilleur.</p></div></div></section>';
 }
 
@@ -826,7 +930,71 @@ function bindView(){
   // Auth forms
   bindAuthForms();
 }
-
+// ============================================================
+// ENSKRIPSYON NAN KOU
+// ============================================================
+document.addEventListener('click', async function(e){
+  const enrollBtn = e.target.closest('#enrollBtn');
+  if(!enrollBtn) return;
+  
+  e.preventDefault();
+  
+  const courseId = enrollBtn.dataset.courseId;
+  const coursePrice = parseFloat(enrollBtn.dataset.coursePrice);
+  const courseSlug = enrollBtn.dataset.courseSlug;
+  
+  // Verifye si itilizatè konekte
+  const { data: { session } } = await sb.auth.getSession();
+  if(!session){
+    toast('Connectez-vous d\'abord pour vous inscrire', 'err');
+    location.hash = '#/login';
+    return;
+  }
+  
+  // Si kou a peye, ale nan paj peman (pou kounye a, jis enskri)
+  if(coursePrice > 0){
+    // Pou kounye a, enskri dirèkteman (peman ap ajoute pita)
+    toast('Paiement à venir. Inscription en cours...', 'info');
+  }
+  
+  // Enskri nan Supabase
+  enrollBtn.disabled = true;
+  enrollBtn.textContent = 'Inscription…';
+  
+  try {
+    const { data, error } = await sb.from('enrollments').insert({
+      user_id: session.user.id,
+      course_id: courseId
+    });
+    
+    if(error){
+      // Si deja enskri, se pa yon erè
+      if(error.code === '23505'){
+        toast('Vous êtes déjà inscrit à ce cours', 'info');
+      } else {
+        toast('Erreur: ' + error.message, 'err');
+        enrollBtn.disabled = false;
+        enrollBtn.textContent = 'S\'inscrire';
+        return;
+      }
+    } else {
+      toast('✓ Inscription réussie !', 'ok');
+      // Ajoute nan favorites pou montre li nan sidebar
+      if(!state.favorites.includes(courseId)){
+        state.favorites.push(courseId);
+      }
+    }
+    
+    // Rechaje paj detay la
+    render();
+    
+  } catch(err){
+    console.error('Erè enskripsyon:', err);
+    toast('Erreur: ' + err.message, 'err');
+    enrollBtn.disabled = false;
+    enrollBtn.textContent = 'S\'inscrire';
+  }
+});
 function bindAuthForms(){
  // ===== GOOGLE LOGIN (Event Delegation) =====
 document.addEventListener('click', async function(e){
